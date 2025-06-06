@@ -3,8 +3,8 @@ import { Facebook, Github } from 'lucide-react';
 import { Modal } from './ui/Modal';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
-import { useAuthStore } from '../store/authStore';
-import { isStrongPassword, isValidEmail } from '../lib/utils';
+import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
+import { isStrongPassword, isValidEmail } from '../shared/utils/helpers';
 
 type RegisterModalProps = {
   isOpen: boolean;

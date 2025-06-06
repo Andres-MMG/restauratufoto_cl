@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Image as ImageIcon, LogOut } from 'lucide-react';
-import { Button } from './ui/Button';
-import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
-import { LoginModal } from './LoginModal';
-import { RegisterModal } from './RegisterModal';
+import { Button } from '../ui/atoms/Button';
+import { useAuthStore } from '../../../features/authentication/hooks/useAuthStore';
+import { LoginModal } from '../../../features/authentication/components/LoginModal';
+import { RegisterModal } from '../../../features/authentication/components/RegisterModal';
 
+/**
+ * Application header with responsive navigation and authentication controls
+ */
 export function Header() {
   const { isAuthenticated, credits, logout } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +45,7 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-6">
           {isAuthenticated ? (
             <>
-              <Link to="/app\" className="text-gray-700 hover:text-primary-600">
+              <Link to="/app" className="text-gray-700 hover:text-primary-600">
                 Restaurar Fotos
               </Link>
               <Link to="/pricing" className="text-gray-700 hover:text-primary-600">

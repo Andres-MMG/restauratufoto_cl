@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Facebook, Github } from 'lucide-react';
-import { Modal } from './ui/Modal';
-import { Input } from './ui/Input';
-import { Button } from './ui/Button';
-import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
-import { isValidEmail } from '../shared/utils/helpers';
+import { Modal } from '../../../shared/components/ui/molecules/Modal';
+import { Input } from '../../../shared/components/ui/atoms/Input';
+import { Button } from '../../../shared/components/ui/atoms/Button';
+import { useAuthStore } from '../hooks/useAuthStore';
+import { isValidEmail } from '../../../shared/utils/helpers';
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -12,6 +12,9 @@ type LoginModalProps = {
   onRegisterClick: () => void;
 };
 
+/**
+ * Login modal component with form validation
+ */
 export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps) {
   const { login, isLoading, error } = useAuthStore();
   

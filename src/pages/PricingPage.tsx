@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Check } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { useAuthStore } from '../store/authStore';
-import { LoginModal } from '../components/LoginModal';
-import { RegisterModal } from '../components/RegisterModal';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
+import { PricingPlans } from '../features/payment/components/PricingPlans';
+import { LoginModal } from '../features/authentication/components/LoginModal';
+import { RegisterModal } from '../features/authentication/components/RegisterModal';
+import { FreeTrial } from '../features/payment/components/FreeTrial';
+import { FAQ, FaqItem } from '../shared/components/ui/molecules/FAQ';
 
-type Plan = {
+export type Plan = {
   id: string;
   name: string;
   price: number;
@@ -15,7 +16,7 @@ type Plan = {
   features: string[];
 };
 
-const plans: Plan[] = [
+export const availablePlans: Plan[] = [
   {
     id: 'single',
     name: 'Foto Individual',
@@ -28,7 +29,7 @@ const plans: Plan[] = [
     ],
   },
   {
-    id: 'pack',
+    id: 'pack10',
     name: 'Paquete de 10',
     price: 9.9,
     credits: 10,
@@ -54,31 +55,47 @@ const plans: Plan[] = [
   },
 ];
 
+/**
+ * Pricing page component that displays available plans and FAQs
+ */
 export function PricingPage() {
   const { isAuthenticated, addCredits } = useAuthStore();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const navigate = useNavigate();
+    // FAQ items
+  const faqItems: FaqItem[] = [
+    {
+      question: '¿Qué es un crédito?',
+      answer: 'Un crédito te permite restaurar una imagen. Cada imagen procesada consume un crédito.'
+    },
+    {
+      question: '¿Cuánto tiempo duran mis créditos?',
+      answer: 'Los créditos de los paquetes individuales y de 10 no expiran. Los créditos de suscripción se renuevan mensualmente.'
+    },
+    {
+      question: '¿Puedo cancelar mi suscripción?',
+      answer: 'Sí, puedes cancelar tu suscripción en cualquier momento desde tu cuenta. No hay períodos de permanencia.'
+    },
+    {
+      question: '¿Qué métodos de pago aceptan?',
+      answer: 'Aceptamos todas las tarjetas de crédito principales, PayPal y Google Pay.'
+    }
+  ];
   
-  const handlePlanSelect = (plan: Plan) => {
+  const handlePlanSelect = (planId: string) => {
     if (!isAuthenticated) {
-      setRegisterModalOpen(true);
+      setIsRegisterModalOpen(true);
       return;
     }
     
-    // Navigate to payment page with plan details
-    navigate('/payment', { state: { plan } });
-  };
-  
-  const handleFreeTrial = () => {
-    if (!isAuthenticated) {
-      setRegisterModalOpen(true);
-      return;
-    }
+    // Find selected plan
+    const selectedPlan = availablePlans.find(plan => plan.id === planId);
     
-    // Add 1 free credit and navigate to app
-    addCredits(1);
-    navigate('/app');
+    if (selectedPlan) {
+      // Navigate to payment page with plan details
+      navigate('/payment', { state: { plan: selectedPlan } });
+    }
   };
   
   const setRegisterModalOpen = (isOpen: boolean) => {
@@ -95,83 +112,14 @@ export function PricingPage() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan) => (
-            <div 
-              key={plan.id} 
-              className={`pricing-card ${plan.popular ? 'pricing-card-popular' : ''}`}
-            >
-              {plan.popular && (
-                <span className="pricing-card-badge">Más Popular</span>
-              )}
-              <h3 className="text-xl font-semibold mb-2">{plan.name}</h3>
-              <p className="text-4xl font-bold mb-1">${plan.price.toFixed(2)}</p>
-              {plan.id === 'pack' && (
-                <p className="text-sm text-gray-500 mb-4">Solo $0.99 por foto</p>
-              )}
-              {plan.id === 'subscription' && (
-                <p className="text-sm text-gray-500 mb-4">Mensual, fotos ilimitadas</p>
-              )}
-              {plan.id === 'single' && (
-                <p className="text-sm text-gray-500 mb-4">Pago único</p>
-              )}
-              <ul className="space-y-3 mb-6">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <Check size={18} className="text-accent-500 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                className="w-full"
-                variant={plan.popular ? 'primary' : 'outline'}
-                onClick={() => handlePlanSelect(plan)}
-              >
-                {isAuthenticated ? 'Seleccionar' : 'Registrarse'}
-              </Button>
-            </div>
-          ))}
-        </div>
+        {/* Use our modular PricingPlans component */}
+        <PricingPlans onPlanSelect={handlePlanSelect} />
+          {/* Free trial section */}
+        <FreeTrial className="max-w-xl mx-auto mt-12" />
         
-        <div className="max-w-xl mx-auto mt-12 p-6 bg-primary-50 rounded-lg text-center">
-          <h3 className="text-xl font-semibold mb-2">¿No estás seguro? Prueba gratis</h3>
-          <p className="text-gray-600 mb-4">
-            Obtén 1 crédito gratis para probar nuestro servicio sin compromiso.
-          </p>
-          <Button onClick={handleFreeTrial}>
-            Prueba Gratuita
-          </Button>
-        </div>
-        
-        <div className="max-w-3xl mx-auto mt-12">
-          <h3 className="text-xl font-semibold mb-4 text-center">Preguntas Frecuentes</h3>
-          <div className="space-y-4">
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <h4 className="font-semibold mb-2">¿Qué es un crédito?</h4>
-              <p className="text-gray-600">
-                Un crédito te permite restaurar una imagen. Cada imagen procesada consume un crédito.
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <h4 className="font-semibold mb-2">¿Cuánto tiempo duran mis créditos?</h4>
-              <p className="text-gray-600">
-                Los créditos de los paquetes individuales y de 10 no expiran. Los créditos de suscripción se renuevan mensualmente.
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <h4 className="font-semibold mb-2">¿Puedo cancelar mi suscripción?</h4>
-              <p className="text-gray-600">
-                Sí, puedes cancelar tu suscripción en cualquier momento desde tu cuenta. No hay períodos de permanencia.
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <h4 className="font-semibold mb-2">¿Qué métodos de pago aceptan?</h4>
-              <p className="text-gray-600">
-                Aceptamos todas las tarjetas de crédito principales, PayPal y Google Pay.
-              </p>
-            </div>
-          </div>
+        {/* FAQ Section */}
+        <div className="mt-12">
+          <FAQ items={faqItems} />
         </div>
       </div>
       

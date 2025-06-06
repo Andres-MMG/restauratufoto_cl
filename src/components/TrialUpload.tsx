@@ -3,8 +3,9 @@ import { Upload, AlertCircle, ArrowRight } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { ComparisonSlider } from './ComparisonSlider';
-import { generateProcessedImageUrl, delay, isValidEmail } from '../lib/utils';
-import { supabase } from '../lib/supabase';
+import { delay, isValidEmail } from '../shared/utils/helpers';
+import { generateProcessedImageUrl } from '../features/photo-restoration/services/imageProcessing';
+import { supabase } from '../shared/config/supabase';
 
 export function TrialUpload() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);

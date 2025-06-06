@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
 import { Facebook, Github } from 'lucide-react';
-import { Modal } from './ui/Modal';
-import { Input } from './ui/Input';
-import { Button } from './ui/Button';
-import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
-import { isValidEmail } from '../shared/utils/helpers';
+import { Modal } from '../../../shared/components/ui/molecules/Modal';
+import { Input } from '../../../shared/components/ui/atoms/Input';
+import { Button } from '../../../shared/components/ui/atoms/Button';
+import { useAuthStore } from '../hooks/useAuthStore';
+import { isStrongPassword, isValidEmail } from '../../../shared/utils/helpers';
 
-type LoginModalProps = {
+type RegisterModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onRegisterClick: () => void;
+  onLoginClick: () => void;
 };
 
-export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps) {
-  const { login, isLoading, error } = useAuthStore();
+/**
+ * Registration modal component with form validation
+ */
+export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalProps) {
+  const { register, isLoading, error } = useAuthStore();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   
   const validateForm = (): boolean => {
     let isValid = true;
@@ -36,8 +42,21 @@ export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps
     if (!password) {
       setPasswordError('La contraseña es requerida');
       isValid = false;
+    } else if (!isStrongPassword(password)) {
+      setPasswordError('La contraseña debe tener al menos 8 caracteres');
+      isValid = false;
     } else {
       setPasswordError('');
+    }
+    
+    if (!confirmPassword) {
+      setConfirmPasswordError('Confirme su contraseña');
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError('Las contraseñas no coinciden');
+      isValid = false;
+    } else {
+      setConfirmPasswordError('');
     }
     
     return isValid;
@@ -48,14 +67,14 @@ export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps
     
     if (!validateForm()) return;
     
-    await login(email, password);
+    await register(email, password);
     if (!error) {
       onClose();
     }
   };
   
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Iniciar Sesión">
+    <Modal isOpen={isOpen} onClose={onClose} title="Crear Cuenta">
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="bg-error-50 p-3 rounded text-error-600 text-sm">
@@ -80,7 +99,17 @@ export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps
           onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
           error={passwordError}
-          autoComplete="current-password"
+          autoComplete="new-password"
+        />
+        
+        <Input
+          label="Confirmar Contraseña"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="••••••••"
+          error={confirmPasswordError}
+          autoComplete="new-password"
         />
         
         <Button 
@@ -88,7 +117,7 @@ export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps
           className="w-full" 
           isLoading={isLoading}
         >
-          Iniciar Sesión
+          Registrarse
         </Button>
         
         <div className="relative flex items-center justify-center">
@@ -108,13 +137,13 @@ export function LoginModal({ isOpen, onClose, onRegisterClick }: LoginModalProps
         </div>
         
         <p className="text-center text-sm">
-          ¿No tienes una cuenta?{" "}
+          ¿Ya tienes una cuenta?{" "}
           <button
             type="button"
-            onClick={onRegisterClick}
+            onClick={onLoginClick}
             className="text-primary-600 hover:underline font-medium"
           >
-            Regístrate
+            Inicia Sesión
           </button>
         </p>
       </form>
