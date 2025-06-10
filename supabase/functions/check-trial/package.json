@@ -1,0 +1,22 @@
+{
+  "name": "check-trial-function",
+  "version": "1.0.0",
+  "description": "Node.js function to check trial availability",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node index.js",
+    "build": "tsc index.ts",
+    "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

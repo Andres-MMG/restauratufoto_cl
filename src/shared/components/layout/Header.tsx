@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Image as ImageIcon, LogOut } from 'lucide-react';
+import { Menu, X, Image as ImageIcon, LogOut, User } from 'lucide-react';
 import { Button } from '../ui/atoms/Button';
 import { useAuthStore } from '../../../features/authentication/hooks/useAuthStore';
 import { LoginModal } from '../../../features/authentication/components/LoginModal';
@@ -56,7 +56,13 @@ export function Header() {
                 <Link to="/pricing">
                   <Button size="sm" variant="outline">Comprar más</Button>
                 </Link>
-              </div>
+              </div>              <Link
+                to="/profile"
+                className="text-gray-700 hover:text-primary-600 flex items-center gap-1"
+              >
+                <User size={18} />
+                <span>Mi Perfil</span>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="text-gray-700 hover:text-primary-600 flex items-center gap-1"

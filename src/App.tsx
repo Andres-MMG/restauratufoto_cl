@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { AppPage } from './pages/AppPage';
 import { PricingPage } from './pages/PricingPage';
 import { PaymentPage } from './pages/PaymentPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { useAuthStore } from './features/authentication/hooks/useAuthStore';
 
 // Protected route component
@@ -49,6 +50,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <PaymentPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             } 
           />

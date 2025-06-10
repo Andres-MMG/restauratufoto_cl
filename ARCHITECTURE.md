@@ -60,7 +60,7 @@ State management uses Zustand with feature-specific stores:
 Supabase is used for:
 - Authentication
 - Data storage
-- Edge functions for photo processing
+- Node.js functions for photo processing
 
 ## Future Improvements
 
