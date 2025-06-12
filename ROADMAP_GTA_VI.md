@@ -29,22 +29,26 @@ npm install gsap @gsap/react
 ---
 
 ### 🏗️ **FASE 2: ELEMENTOS FIJOS GLOBALES** ⏱️ 2-3 días
-**Estado**: 🟡 En progreso
+**Estado**: ✅ COMPLETADA
 
-#### 🎯 Objetivos:
-- [ ] Modificar `MainLayout.tsx` para elementos fijos
-- [ ] Crear componente `ScrollIndicator`
-- [ ] Implementar fade-out de Header/Footer con scroll
-- [ ] Testing responsive en móvil y desktop
+#### ✅ Completado:
+- [x] Modificar `MainLayout.tsx` para elementos fijos
+- [x] Crear componente `ScrollIndicator`
+- [x] Implementar fade-out de Header/Footer con scroll
+- [x] Testing responsive en móvil y desktop
+- [x] Configurar animaciones bounce-pulse en tailwind
+- [x] Implementar GSAP para efectos de scroll
+- [x] Agregar backdrop-blur y estilos modernos
 
-#### 📋 Archivos a modificar:
-- `src/shared/components/layout/MainLayout.tsx`
-- `src/shared/components/ui/molecules/ScrollIndicator.tsx` (nuevo)
+#### 📋 Archivos modificados:
+- `src/shared/components/layout/MainLayout.tsx` ✅
+- `src/shared/components/ui/molecules/ScrollIndicator.tsx` ✅ (nuevo)
+- `tailwind.config.js` ✅ (animaciones agregadas)
 
 ---
 
 ### 🎬 **FASE 3: HERO SECTION CINEMATOGRÁFICA** ⏱️ 3-4 días
-**Estado**: 🟠 Pendiente
+**Estado**: 🟡 En progreso
 
 #### 🎯 Objetivos:
 - [ ] Implementar efecto "alejar cámara" en `ComparisonSlider`

@@ -13,8 +13,8 @@ import { CallToAction } from '../shared/components/ui/molecules/CallToAction';
 import { gsap, ScrollTrigger } from '../lib/gsap';
 
 /**
- * HomePage component with GTA VI cinematic effects
- * Features hero section with camera zoom-out effect and fixed elements fade
+ * HomePage component that serves as the landing page of the application
+ * Organized into sections using modular components
  */
 export function HomePage() {
   const navigate = useNavigate();
@@ -38,8 +38,9 @@ export function HomePage() {
     const heroSection = heroRef.current;
     const heroContent = heroContentRef.current;
     const sliderContainer = sliderContainerRef.current;
+    const examplesSection = examplesRef.current;
 
-    if (!heroSection || !heroContent || !sliderContainer) return;
+    if (!heroSection || !heroContent || !sliderContainer || !examplesSection) return;
 
     // 🎥 ANIMACIÓN PRINCIPAL DE HERO (Efecto "alejar cámara")
     const heroTimeline = gsap.timeline({
@@ -112,15 +113,6 @@ export function HomePage() {
                 autoSlide={true}
               />
             </div>
-
-            <div className="text-center mt-6">
-              <p className="text-gray-700 mb-4">
-                ¿Quieres probar? Sube tu primera foto GRATIS:
-              </p>
-              <TrialUpload />
-            </div>
-            
-            <RegisterForm />
           </div>
         </div>
 
@@ -130,14 +122,20 @@ export function HomePage() {
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent-500/20 rounded-full blur-2xl" />
       </div>
 
-      {/* 🎭 SECCIÓN DE EJEMPLOS - Con efecto de máscara (Preparada para Fase 4) */}
+      {/* 🎭 SECCIÓN DE EJEMPLOS - Con efecto de máscara */}
       <div ref={examplesRef} className="relative">
-        <section className="py-16 bg-gray-50">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Ejemplos Impresionantes</h2>
-            <ExamplesGallery />
+        <ExamplesGallery />
+      </div>
+          
+          <div className="text-center mb-6">
+            <p className="text-gray-700 mb-4">
+              ¿Quieres probar? Sube tu primera foto GRATIS:
+            </p>
+            <TrialUpload />
           </div>
-        </section>
+          
+          <RegisterForm />
+        </div>
       </div>
 
       {/* How it Works Section */}
@@ -148,8 +146,16 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
+      {/* Examples Section */}
       <section className="py-16 bg-gray-50">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">Ejemplos Impresionantes</h2>
+          <ExamplesGallery />
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-16 bg-white">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">¿Por Qué Elegirnos?</h2>
           <BenefitsList />
@@ -157,7 +163,7 @@ export function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Lo Que Dicen Nuestros Clientes</h2>
           <Testimonials />
@@ -165,10 +171,10 @@ export function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Planes Simples y Transparentes</h2>
-          <PricingPlans onSelectPlan={handleSelectPlan} />
+          <PricingPlans compact onPlanSelect={handleSelectPlan} />
         </div>
       </section>
 
