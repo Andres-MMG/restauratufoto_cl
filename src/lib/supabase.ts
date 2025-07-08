@@ -9,10 +9,15 @@ export type AuthError = {
   message: string;
 };
 
-export async function signUp(email: string, password: string): Promise<{ error: AuthError | null }> {
+export async function signUp(email: string, password: string, fullName?: string): Promise<{ error: AuthError | null }> {
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        full_name: fullName || ''
+      }
+    }
   });
   
   return { error: error as AuthError | null };

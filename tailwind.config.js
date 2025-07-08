@@ -83,7 +83,6 @@ export default {
         'slide-out': 'slide-out 0.3s ease-in',
         'fade-in': 'fade-in 0.3s ease-out',
         'fade-out': 'fade-out 0.3s ease-in',
-        'bounce-pulse': 'bounce-pulse 2s infinite',
       },
       keyframes: {
         'slide-in': {
@@ -101,16 +100,6 @@ export default {
         'fade-out': {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
-        },
-        'bounce-pulse': {
-          '0%, 100%': { 
-            transform: 'translateY(0) scale(1)', 
-            opacity: '1' 
-          },
-          '50%': { 
-            transform: 'translateY(-10px) scale(1.1)', 
-            opacity: '0.8' 
-          },
         },
       },
     },

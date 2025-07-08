@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Image as ImageIcon, LogOut } from 'lucide-react';
 import { Button } from './ui/Button';
-import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
+import { useAuthStore } from '../store/authStore';
 import { LoginModal } from './LoginModal';
 import { RegisterModal } from './RegisterModal';
+import { ProfileModal } from './ProfileModal';
+import { useSubscription } from '../hooks/useSubscription';
 
 export function Header() {
-  const { isAuthenticated, credits, logout } = useAuthStore();
+  const { isAuthenticated, user, logout } = useAuthStore();
+  const { subscription } = useSubscription();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -30,6 +34,11 @@ export function Header() {
     closeMenu();
   };
   
+  const openProfileModal = () => {
+    setIsProfileModalOpen(true);
+    closeMenu();
+  };
+  
   return (
     <header className="bg-white shadow-sm sticky top-0 z-40">
       <div className="container py-4 flex items-center justify-between">
@@ -42,18 +51,29 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-6">
           {isAuthenticated ? (
             <>
-              <Link to="/app\" className="text-gray-700 hover:text-primary-600">
+              <Link to="/app" className="text-gray-700 hover:text-primary-600">
                 Restaurar Fotos
               </Link>
               <Link to="/pricing" className="text-gray-700 hover:text-primary-600">
                 Precios
               </Link>
+              {subscription && (
+                <div className="text-sm text-gray-600">
+                  Plan: <span className="font-medium text-primary-600">{subscription.plan_name}</span>
+                </div>
+              )}
               <div className="flex items-center gap-2 text-gray-700">
-                <span className="text-sm font-medium">Créditos: {credits}</span>
+                <span className="text-sm font-medium">Créditos: {user?.credits || 0}</span>
                 <Link to="/pricing">
                   <Button size="sm" variant="outline">Comprar más</Button>
                 </Link>
               </div>
+              <button
+                onClick={openProfileModal}
+                className="text-gray-700 hover:text-primary-600 flex items-center gap-1"
+              >
+                <span>Hola, {user?.full_name || user?.email}</span>
+              </button>
               <button
                 onClick={handleLogout}
                 className="text-gray-700 hover:text-primary-600 flex items-center gap-1"
@@ -110,12 +130,23 @@ export function Header() {
                 >
                   Precios
                 </Link>
+                {subscription && (
+                  <div className="py-2 text-sm text-gray-600">
+                    Plan: <span className="font-medium text-primary-600">{subscription.plan_name}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between py-2 border-t">
-                  <span className="text-sm font-medium">Créditos: {credits}</span>
+                  <span className="text-sm font-medium">Créditos: {user?.credits || 0}</span>
                   <Link to="/pricing" onClick={closeMenu}>
                     <Button size="sm" variant="outline">Comprar más</Button>
                   </Link>
                 </div>
+                <button
+                  onClick={openProfileModal}
+                  className="text-gray-700 hover:text-primary-600 py-2 border-t"
+                >
+                  Mi Perfil
+                </button>
                 <button
                   onClick={handleLogout}
                   className="text-gray-700 hover:text-primary-600 flex items-center gap-1 py-2 border-t"
@@ -161,6 +192,11 @@ export function Header() {
           setIsLoginModalOpen(false);
           setIsRegisterModalOpen(true);
         }}
+      />
+      
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)}
       />
       
       <RegisterModal

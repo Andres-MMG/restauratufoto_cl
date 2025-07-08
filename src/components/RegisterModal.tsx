@@ -3,8 +3,8 @@ import { Facebook, Github } from 'lucide-react';
 import { Modal } from './ui/Modal';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
-import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
-import { isStrongPassword, isValidEmail } from '../shared/utils/helpers';
+import { useAuthStore } from '../store/authStore';
+import { isStrongPassword, isValidEmail } from '../lib/utils';
 
 type RegisterModalProps = {
   isOpen: boolean;
@@ -18,13 +18,22 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [fullNameError, setFullNameError] = useState('');
   
   const validateForm = (): boolean => {
     let isValid = true;
+    
+    if (!fullName.trim()) {
+      setFullNameError('El nombre completo es requerido');
+      isValid = false;
+    } else {
+      setFullNameError('');
+    }
     
     if (!email) {
       setEmailError('El correo electrónico es requerido');
@@ -64,7 +73,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
     
     if (!validateForm()) return;
     
-    await register(email, password);
+    await register(email, password, fullName.trim());
     if (!error) {
       onClose();
     }
@@ -78,6 +87,16 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
             {error}
           </div>
         )}
+        
+        <Input
+          label="Nombre Completo"
+          type="text"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="Tu nombre completo"
+          error={fullNameError}
+          autoComplete="name"
+        />
         
         <Input
           label="Correo Electrónico"

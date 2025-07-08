@@ -15,12 +15,9 @@
       - `used_at` (timestamp)
       - `created_at` (timestamp)
 
-  2. Security Implementation
-    - Enable RLS (Row Level Security) on both tables
-    - Tables are only accessible by service_role, not regular users
-    - Users can only access the check_trial_availability function
-    - The function uses SECURITY DEFINER to run with elevated privileges
-    - All user access is controlled through Node.js Functions for additional security
+  2. Security
+    - Enable RLS on both tables
+    - Add policies for service role access
 */
 
 -- Create trial_quota table
@@ -40,12 +37,11 @@ CREATE TABLE IF NOT EXISTS trial_usage (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
--- Enable RLS (Row Level Security)
+-- Enable RLS
 ALTER TABLE trial_quota ENABLE ROW LEVEL SECURITY;
 ALTER TABLE trial_usage ENABLE ROW LEVEL SECURITY;
 
--- Create policies for service role
--- ONLY the service_role can access these tables directly
+-- Create policies
 CREATE POLICY "Service role can manage trial quota"
   ON trial_quota
   FOR ALL
@@ -59,8 +55,6 @@ CREATE POLICY "Service role can manage trial usage"
   USING (true);
 
 -- Create function to check trial availability
--- SECURITY DEFINER means this function runs with the privileges of its creator (usually a superuser)
--- This allows the function to access tables that the calling user cannot access directly
 CREATE OR REPLACE FUNCTION check_trial_availability(user_ip text)
 RETURNS boolean
 LANGUAGE plpgsql
