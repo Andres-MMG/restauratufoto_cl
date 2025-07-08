@@ -3,7 +3,7 @@ import { Facebook, Github } from 'lucide-react';
 import { Modal } from './ui/Modal';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 import { isStrongPassword, isValidEmail } from '../lib/utils';
 
 type RegisterModalProps = {
@@ -12,29 +12,33 @@ type RegisterModalProps = {
   onLoginClick: () => void;
 };
 
-export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalProps) {
+export function RegisterModal({
+  isOpen,
+  onClose,
+  onLoginClick,
+}: RegisterModalProps) {
   const { register, isLoading, error } = useAuthStore();
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  
+
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [fullNameError, setFullNameError] = useState('');
-  
+
   const validateForm = (): boolean => {
     let isValid = true;
-    
+
     if (!fullName.trim()) {
       setFullNameError('El nombre completo es requerido');
       isValid = false;
     } else {
       setFullNameError('');
     }
-    
+
     if (!email) {
       setEmailError('El correo electrónico es requerido');
       isValid = false;
@@ -44,7 +48,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
     } else {
       setEmailError('');
     }
-    
+
     if (!password) {
       setPasswordError('La contraseña es requerida');
       isValid = false;
@@ -54,7 +58,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
     } else {
       setPasswordError('');
     }
-    
+
     if (!confirmPassword) {
       setConfirmPasswordError('Confirme su contraseña');
       isValid = false;
@@ -64,21 +68,21 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
     } else {
       setConfirmPasswordError('');
     }
-    
+
     return isValid;
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     await register(email, password, fullName.trim());
     if (!error) {
       onClose();
     }
   };
-  
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Crear Cuenta">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -87,7 +91,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
             {error}
           </div>
         )}
-        
+
         <Input
           label="Nombre Completo"
           type="text"
@@ -97,7 +101,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
           error={fullNameError}
           autoComplete="name"
         />
-        
+
         <Input
           label="Correo Electrónico"
           type="email"
@@ -107,7 +111,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
           error={emailError}
           autoComplete="email"
         />
-        
+
         <Input
           label="Contraseña"
           type="password"
@@ -117,7 +121,7 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
           error={passwordError}
           autoComplete="new-password"
         />
-        
+
         <Input
           label="Confirmar Contraseña"
           type="password"
@@ -127,20 +131,18 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
           error={confirmPasswordError}
           autoComplete="new-password"
         />
-        
-        <Button 
-          type="submit" 
-          className="w-full" 
-          isLoading={isLoading}
-        >
+
+        <Button type="submit" className="w-full" isLoading={isLoading}>
           Registrarse
         </Button>
-        
+
         <div className="relative flex items-center justify-center">
           <div className="border-t border-gray-300 w-full"></div>
-          <span className="bg-white px-2 text-sm text-gray-500 absolute">o continuar con</span>
+          <span className="bg-white px-2 text-sm text-gray-500 absolute">
+            o continuar con
+          </span>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3">
           <Button type="button" variant="outline" className="w-full">
             <Facebook size={16} className="mr-2" />
@@ -151,9 +153,9 @@ export function RegisterModal({ isOpen, onClose, onLoginClick }: RegisterModalPr
             Google
           </Button>
         </div>
-        
+
         <p className="text-center text-sm">
-          ¿Ya tienes una cuenta?{" "}
+          ¿Ya tienes una cuenta?{' '}
           <button
             type="button"
             onClick={onLoginClick}

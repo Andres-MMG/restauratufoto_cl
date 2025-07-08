@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Image as ImageIcon, LogOut } from 'lucide-react';
 import { Button } from './ui/Button';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 import { LoginModal } from './LoginModal';
 import { RegisterModal } from './RegisterModal';
 import { ProfileModal } from './ProfileModal';
@@ -15,38 +15,41 @@ export function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
-  
+
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
     closeMenu();
   };
-  
+
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
     closeMenu();
   };
-  
+
   const handleLogout = async () => {
     await logout();
     closeMenu();
   };
-  
+
   const openProfileModal = () => {
     setIsProfileModalOpen(true);
     closeMenu();
   };
-  
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-40">
       <div className="container py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-bold text-primary-600 text-xl">
+        <Link
+          to="/"
+          className="flex items-center gap-2 font-bold text-primary-600 text-xl"
+        >
           <ImageIcon size={24} />
           <span>RestauraTuFoto.cl</span>
         </Link>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           {isAuthenticated ? (
@@ -54,18 +57,28 @@ export function Header() {
               <Link to="/app" className="text-gray-700 hover:text-primary-600">
                 Restaurar Fotos
               </Link>
-              <Link to="/pricing" className="text-gray-700 hover:text-primary-600">
+              <Link
+                to="/pricing"
+                className="text-gray-700 hover:text-primary-600"
+              >
                 Precios
               </Link>
               {subscription && (
                 <div className="text-sm text-gray-600">
-                  Plan: <span className="font-medium text-primary-600">{subscription.plan_name}</span>
+                  Plan:{' '}
+                  <span className="font-medium text-primary-600">
+                    {subscription.plan_name}
+                  </span>
                 </div>
               )}
               <div className="flex items-center gap-2 text-gray-700">
-                <span className="text-sm font-medium">Créditos: {user?.credits || 0}</span>
+                <span className="text-sm font-medium">
+                  Créditos: {user?.credits || 0}
+                </span>
                 <Link to="/pricing">
-                  <Button size="sm" variant="outline">Comprar más</Button>
+                  <Button size="sm" variant="outline">
+                    Comprar más
+                  </Button>
                 </Link>
               </div>
               <button
@@ -87,19 +100,20 @@ export function Header() {
               <Link to="/" className="text-gray-700 hover:text-primary-600">
                 Inicio
               </Link>
-              <Link to="/pricing" className="text-gray-700 hover:text-primary-600">
+              <Link
+                to="/pricing"
+                className="text-gray-700 hover:text-primary-600"
+              >
                 Precios
               </Link>
               <Button variant="outline" onClick={openLoginModal}>
                 Iniciar Sesión
               </Button>
-              <Button onClick={openRegisterModal}>
-                Registrarse
-              </Button>
+              <Button onClick={openRegisterModal}>Registrarse</Button>
             </>
           )}
         </nav>
-        
+
         {/* Mobile Menu Button */}
         <button
           className="md:hidden p-2 text-gray-700"
@@ -109,21 +123,21 @@ export function Header() {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-      
+
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t animate-slide-in">
           <div className="container py-4 flex flex-col gap-4">
             {isAuthenticated ? (
               <>
-                <Link 
-                  to="/app" 
+                <Link
+                  to="/app"
                   className="text-gray-700 hover:text-primary-600 py-2"
                   onClick={closeMenu}
                 >
                   Restaurar Fotos
                 </Link>
-                <Link 
+                <Link
                   to="/pricing"
                   className="text-gray-700 hover:text-primary-600 py-2"
                   onClick={closeMenu}
@@ -132,13 +146,20 @@ export function Header() {
                 </Link>
                 {subscription && (
                   <div className="py-2 text-sm text-gray-600">
-                    Plan: <span className="font-medium text-primary-600">{subscription.plan_name}</span>
+                    Plan:{' '}
+                    <span className="font-medium text-primary-600">
+                      {subscription.plan_name}
+                    </span>
                   </div>
                 )}
                 <div className="flex items-center justify-between py-2 border-t">
-                  <span className="text-sm font-medium">Créditos: {user?.credits || 0}</span>
+                  <span className="text-sm font-medium">
+                    Créditos: {user?.credits || 0}
+                  </span>
                   <Link to="/pricing" onClick={closeMenu}>
-                    <Button size="sm" variant="outline">Comprar más</Button>
+                    <Button size="sm" variant="outline">
+                      Comprar más
+                    </Button>
                   </Link>
                 </div>
                 <button
@@ -157,14 +178,14 @@ export function Header() {
               </>
             ) : (
               <>
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   className="text-gray-700 hover:text-primary-600 py-2"
                   onClick={closeMenu}
                 >
                   Inicio
                 </Link>
-                <Link 
+                <Link
                   to="/pricing"
                   className="text-gray-700 hover:text-primary-600 py-2"
                   onClick={closeMenu}
@@ -175,30 +196,28 @@ export function Header() {
                   <Button variant="outline" onClick={openLoginModal}>
                     Iniciar Sesión
                   </Button>
-                  <Button onClick={openRegisterModal}>
-                    Registrarse
-                  </Button>
+                  <Button onClick={openRegisterModal}>Registrarse</Button>
                 </div>
               </>
             )}
           </div>
         </div>
       )}
-      
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         onRegisterClick={() => {
           setIsLoginModalOpen(false);
           setIsRegisterModalOpen(true);
         }}
       />
-      
-      <ProfileModal 
-        isOpen={isProfileModalOpen} 
+
+      <ProfileModal
+        isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
       />
-      
+
       <RegisterModal
         isOpen={isRegisterModalOpen}
         onClose={() => setIsRegisterModalOpen(false)}

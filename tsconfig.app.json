@@ -23,7 +23,6 @@
       "@/shared/*": ["src/shared/*"],
       "@/pages/*": ["src/pages/*"],
       "@/lib/*": ["src/lib/*"],
-      "@/store/*": ["src/store/*"],
       "@/hooks/*": ["src/hooks/*"]
     },
 

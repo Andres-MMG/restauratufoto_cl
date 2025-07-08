@@ -5,7 +5,7 @@ import { Input } from './ui/Input';
 import { ComparisonSlider } from './ComparisonSlider';
 import { generateProcessedImageUrl, delay, isValidEmail } from '../lib/utils';
 import { supabase } from '../lib/supabase';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 
 export function TrialUpload() {
   const { user } = useAuthStore();

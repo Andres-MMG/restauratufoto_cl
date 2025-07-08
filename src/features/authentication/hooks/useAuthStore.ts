@@ -6,10 +6,13 @@ import {
   signOut,
   signUp,
 } from '../services/authService';
+import { supabase } from '../../../shared/config/supabase';
 
 type User = {
   id: string;
   email: string;
+  full_name?: string;
+  trial_used?: boolean;
 } | null;
 
 type AuthState = {
@@ -19,11 +22,17 @@ type AuthState = {
   error: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    fullName?: string
+  ) => Promise<void>;
   logout: () => Promise<void>;
   addCredits: (amount: number) => void;
   consumeCredit: () => boolean;
   checkSession: () => Promise<void>;
+  updateProfile: (data: { full_name?: string }) => Promise<void>;
+  refreshUserData: () => Promise<void>;
 };
 
 /**
@@ -50,39 +59,29 @@ export const useAuthStore = create<AuthState>()(
             return;
           }
 
-          const user = await getCurrentUser();
-
-          if (user) {
-            set({
-              user: { id: user.id, email: user.email as string },
-              isAuthenticated: true,
-              isLoading: false,
-            });
-          } else {
-            set({
-              error: 'No se pudo obtener la información del usuario.',
-              isLoading: false,
-            });
-          }
+          // Get user data from our database
+          await get().refreshUserData();
         } catch (error) {
           console.error('Login error:', error);
           set({ error: 'Error al iniciar sesión.', isLoading: false });
         }
       },
 
-      register: async (email: string, password: string) => {
+      register: async (email: string, password: string, fullName?: string) => {
         set({ isLoading: true, error: null });
 
         try {
-          const { error } = await signUp(email, password);
+          const { error } = await signUp(email, password, fullName);
 
           if (error) {
             set({ error: error.message, isLoading: false });
             return;
           }
 
-          // Auto-login after registration
-          await get().login(email, password);
+          // Wait for profile to be created, then refresh user data
+          setTimeout(async () => {
+            await get().refreshUserData();
+          }, 1000);
         } catch (error) {
           console.error('Registration error:', error);
           set({ error: 'Error al registrar usuario.', isLoading: false });
@@ -113,11 +112,7 @@ export const useAuthStore = create<AuthState>()(
           const user = await getCurrentUser();
 
           if (user) {
-            set({
-              user: { id: user.id, email: user.email as string },
-              isAuthenticated: true,
-              isLoading: false,
-            });
+            await get().refreshUserData();
           } else {
             set({ isLoading: false });
           }
@@ -140,6 +135,86 @@ export const useAuthStore = create<AuthState>()(
 
         set((state) => ({ credits: state.credits - 1 }));
         return true;
+      },
+
+      updateProfile: async (data: { full_name?: string }) => {
+        const { user } = get();
+        if (!user) return;
+
+        set({ isLoading: true, error: null });
+
+        try {
+          const { error } = await supabase
+            .from('users')
+            .update(data)
+            .eq('id', user.id);
+
+          if (error) throw error;
+
+          // Update local state
+          set({
+            user: { ...user, ...data },
+            isLoading: false,
+          });
+        } catch (error) {
+          set({
+            error: (error as Error).message,
+            isLoading: false,
+          });
+        }
+      },
+
+      refreshUserData: async () => {
+        try {
+          const authUser = await getCurrentUser();
+
+          if (!authUser) {
+            set({
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+            });
+            return;
+          }
+
+          // Get user profile data
+          const { data: userData, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', authUser.id)
+            .single();
+
+          if (error) {
+            console.error('Error fetching user data:', error);
+            set({
+              user: null,
+              isAuthenticated: false,
+              isLoading: false,
+              error: 'Error al cargar datos del usuario',
+            });
+            return;
+          }
+
+          set({
+            user: {
+              id: userData.id,
+              email: userData.email,
+              full_name: userData.full_name,
+              trial_used: userData.trial_used,
+            },
+            credits: userData.credits || 0,
+            isAuthenticated: true,
+            isLoading: false,
+            error: null,
+          });
+        } catch (error) {
+          set({
+            error: (error as Error).message,
+            isLoading: false,
+            user: null,
+            isAuthenticated: false,
+          });
+        }
       },
     }),
     {

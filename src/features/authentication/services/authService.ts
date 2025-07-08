@@ -7,24 +7,36 @@ export type AuthError = {
 /**
  * Registers a new user with email and password
  */
-export async function signUp(email: string, password: string): Promise<{ error: AuthError | null }> {
+export async function signUp(
+  email: string,
+  password: string,
+  fullName?: string
+): Promise<{ error: AuthError | null }> {
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        full_name: fullName || '',
+      },
+    },
   });
-  
+
   return { error: error as AuthError | null };
 }
 
 /**
  * Signs in a user with email and password
  */
-export async function signIn(email: string, password: string): Promise<{ error: AuthError | null }> {
+export async function signIn(
+  email: string,
+  password: string
+): Promise<{ error: AuthError | null }> {
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
-  
+
   return { error: error as AuthError | null };
 }
 
