@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 type ComparisonSliderProps = {
   beforeImage: string;
@@ -7,86 +7,84 @@ type ComparisonSliderProps = {
   autoSlide?: boolean;
 };
 
-export function ComparisonSlider({ 
-  beforeImage, 
-  afterImage, 
+export function ComparisonSlider({
+  beforeImage,
+  afterImage,
   className = '',
-  autoSlide = false
+  autoSlide = false,
 }: ComparisonSliderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState(50);
   const sliderRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     if (autoSlide) {
       const interval = setInterval(() => {
-        setPosition(prev => {
+        setPosition((prev) => {
           if (prev >= 90) return 10;
           return prev + 1;
         });
       }, 50);
-      
+
       return () => clearInterval(interval);
     }
   }, [autoSlide]);
-  
+
   const handleMouseDown = () => {
     if (autoSlide) return;
     setIsDragging(true);
   };
-  
-  const handleMouseUp = () => {
+
+  const handleMouseUp = useCallback(() => {
     if (autoSlide) return;
     setIsDragging(false);
-  };
-  
+  }, [autoSlide]);
+
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging || autoSlide) return;
-    
-    const clientX = 'touches' in e 
-      ? e.touches[0].clientX 
-      : e.clientX;
-      
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+
     if (!sliderRef.current) return;
-    
+
     const rect = sliderRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const newPosition = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    
+
     setPosition(newPosition);
   };
-  
+
   useEffect(() => {
     if (autoSlide) return;
-    
+
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchend', handleMouseUp);
-    
+
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchend', handleMouseUp);
     };
-  }, [autoSlide]);
-  
+  }, [autoSlide, handleMouseUp]);
+
   return (
-    <div 
+    <div
       ref={sliderRef}
       className={`comparison-slider ${className} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
     >
-      <div 
+      <div
         className="before"
         style={{ backgroundImage: `url(${beforeImage})` }}
       />
-      <div 
+      <div
         className="after"
-        style={{ 
+        style={{
           backgroundImage: `url(${afterImage})`,
-          width: `${position}%`
+          width: `${position}%`,
         }}
       />
-      <div 
+      <div
         className="slider-handle"
         style={{ left: `${position}%` }}
         onMouseDown={handleMouseDown}

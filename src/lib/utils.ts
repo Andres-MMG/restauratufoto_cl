@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -9,12 +9,12 @@ export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
   }).format(amount);
 }
 
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function getRandomInt(min: number, max: number): number {
@@ -33,8 +33,8 @@ export function isStrongPassword(password: string): boolean {
 }
 
 // Simulates a processed "after" image by creating a placeholder URL
-export function generateProcessedImageUrl(originalImageUrl: string): string {
+export function generateProcessedImageUrl(): string {
   // In a real app, this would call an AI service to process the image
   // For now, we're just simulating with a placeholder
-  return "https://images.pexels.com/photos/2781760/pexels-photo-2781760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+  return 'https://images.pexels.com/photos/2781760/pexels-photo-2781760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 }

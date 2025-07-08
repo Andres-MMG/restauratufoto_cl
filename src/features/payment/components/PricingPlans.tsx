@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { useAuthStore } from '../../authentication/hooks/useAuthStore';
-import { Plan, availablePlans } from '../../../pages/PricingPage';
+import { availablePlans } from '../../../pages/PricingPage';
 
 type PricingPlanProps = {
   compact?: boolean;
@@ -12,19 +12,19 @@ type PricingPlanProps = {
  * Component for displaying pricing plans
  * Can be shown in compact mode for the HomePage or full mode for the PricingPage
  */
-export function PricingPlans({ compact = false, onPlanSelect }: PricingPlanProps) {
+export function PricingPlans({ onPlanSelect }: PricingPlanProps) {
   const { isAuthenticated } = useAuthStore();
-  
+
   const handleSelectPlan = (planId: string) => {
     if (onPlanSelect) {
       onPlanSelect(planId);
     }
   };
-  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
       {availablePlans.map((plan) => (
-        <div 
+        <div
           key={plan.id}
           className={`bg-white p-8 rounded-xl border border-gray-200 hover:border-primary-500 transition-all ${plan.popular ? 'relative border-accent-500 shadow-lg' : ''}`}
         >
@@ -46,8 +46,8 @@ export function PricingPlans({ compact = false, onPlanSelect }: PricingPlanProps
               </li>
             ))}
           </ul>
-          <Button 
-            variant={plan.popular ? "primary" : "outline"}
+          <Button
+            variant={plan.popular ? 'primary' : 'outline'}
             className="w-full"
             onClick={() => handleSelectPlan(plan.id)}
           >

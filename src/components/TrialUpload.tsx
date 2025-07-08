@@ -15,7 +15,7 @@ export function TrialUpload() {
   const [error, setError] = useState<string | null>(null);
   const [showOffer, setShowOffer] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
+
   // Email verification states
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -23,46 +23,48 @@ export function TrialUpload() {
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailSubmitting, setIsEmailSubmitting] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Check file type
     if (!file.type.includes('image/')) {
       setError('Por favor, sube un archivo de imagen válido.');
       return;
     }
-    
+
     // Check file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       setError('La imagen es demasiado grande. El tamaño máximo es 10MB.');
       return;
     }
-    
+
     setError(null);
     setSelectedFile(file);
   };
-  
+
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Si el usuario ya está autenticado y ya usó el trial
     if (user && user.trial_used) {
-      setError('Ya has usado tu prueba gratuita. Por favor, compra créditos para continuar.');
+      setError(
+        'Ya has usado tu prueba gratuita. Por favor, compra créditos para continuar.'
+      );
       return;
     }
-    
+
     if (!isValidEmail(email)) {
       setError('Por favor, ingresa un email válido.');
       return;
     }
-    
+
     setIsEmailSubmitting(true);
     setError(null);
-    
+
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -70,73 +72,78 @@ export function TrialUpload() {
           emailRedirectTo: window.location.origin,
         },
       });
-      
+
       if (error) throw error;
-      
+
       setIsEmailSent(true);
     } catch (err) {
-      setError('Error al enviar el código de verificación. Por favor, intenta de nuevo.');
+      console.error('Error sending verification code:', err);
+      setError(
+        'Error al enviar el código de verificación. Por favor, intenta de nuevo.'
+      );
     } finally {
       setIsEmailSubmitting(false);
     }
   };
-  
+
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!verificationCode) {
       setError('Por favor, ingresa el código de verificación.');
       return;
     }
-    
+
     setIsVerifying(true);
     setError(null);
-    
+
     try {
       // Here you would verify the code with your backend
       await delay(1000); // Simulated verification
-      
+
       // Marcar trial como usado si el usuario está autenticado
       if (user) {
         await supabase.rpc('mark_trial_used', { user_id: user.id });
       }
-      
+
       setIsVerified(true);
-      
+
       // If file was already selected, process it
       if (selectedFile) {
         await processImage(selectedFile);
       }
     } catch (err) {
+      console.error('Error verifying code:', err);
       setError('Código inválido. Por favor, intenta de nuevo.');
     } finally {
       setIsVerifying(false);
     }
   };
-  
+
   const processImage = async (file: File) => {
     setIsProcessing(true);
     try {
       const imageUrl = URL.createObjectURL(file);
       setOriginalImage(imageUrl);
-      
+
       // Simulate processing delay
       await delay(2000);
-      const processedImageUrl = generateProcessedImageUrl(imageUrl);
+      const processedImageUrl = generateProcessedImageUrl();
       setProcessedImage(processedImageUrl);
       setShowOffer(true);
     } catch (err) {
+      console.error('Error processing image:', err);
       setError('Ha ocurrido un error al procesar la imagen.');
     } finally {
       setIsProcessing(false);
     }
   };
-  
+
   return (
     <div className="w-full">
       {!isEmailSent ? (
         <div className="space-y-4">
-          <Button 
+          <Button
             onClick={() => fileInputRef.current?.click()}
             variant="outline"
             className="w-full md:w-auto mb-4"
@@ -151,7 +158,7 @@ export function TrialUpload() {
             accept="image/*"
             onChange={handleFileSelect}
           />
-          
+
           {selectedFile && (
             <form onSubmit={handleEmailSubmit} className="space-y-4">
               <Input
@@ -161,8 +168,8 @@ export function TrialUpload() {
                 placeholder="Tu correo electrónico"
                 disabled={isEmailSubmitting}
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full"
                 isLoading={isEmailSubmitting}
               >
@@ -184,11 +191,7 @@ export function TrialUpload() {
             placeholder="Código de verificación"
             disabled={isVerifying}
           />
-          <Button 
-            type="submit" 
-            className="w-full"
-            isLoading={isVerifying}
-          >
+          <Button type="submit" className="w-full" isLoading={isVerifying}>
             Verificar Código
           </Button>
         </form>
@@ -200,7 +203,7 @@ export function TrialUpload() {
               <p>{error}</p>
             </div>
           )}
-          
+
           {isProcessing ? (
             <div className="text-center py-8">
               <div className="animate-spin w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -209,18 +212,21 @@ export function TrialUpload() {
           ) : processedImage ? (
             <>
               <div className="rounded-lg overflow-hidden">
-                <ComparisonSlider 
+                <ComparisonSlider
                   beforeImage={originalImage!}
                   afterImage={processedImage}
                 />
               </div>
-              
+
               {showOffer && (
                 <div className="bg-accent-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-accent-900 mb-2">¡Oferta Especial!</h3>
+                  <h3 className="font-semibold text-accent-900 mb-2">
+                    ¡Oferta Especial!
+                  </h3>
                   <p className="text-accent-800 mb-4">
-                    Por solo $1 USD, obtén esta foto restaurada y 2 restauraciones adicionales.
-                    ¡Oferta única por tiempo limitado!
+                    Por solo $1 USD, obtén esta foto restaurada y 2
+                    restauraciones adicionales. ¡Oferta única por tiempo
+                    limitado!
                   </p>
                   <Button className="w-full bg-accent-600 hover:bg-accent-700">
                     Obtener 3 Fotos por $1

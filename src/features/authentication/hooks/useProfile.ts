@@ -1,5 +1,5 @@
 // useProfile.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from './useAuthStore';
 import { profileService } from '../services/profileService';
 
@@ -26,8 +26,37 @@ export function useProfile() {
   const [state, setState] = useState<ProfileState>({
     profile: null,
     isLoading: false,
-    error: null
+    error: null,
   });
+
+  const loadProfile = useCallback(async () => {
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const result = await profileService.getCurrentProfile();
+
+      if (result.success) {
+        setState({
+          profile: result.data,
+          isLoading: false,
+          error: null,
+        });
+      } else {
+        setState({
+          profile: null,
+          isLoading: false,
+          error: result.error || 'Failed to load profile',
+        });
+      }
+    } catch (error) {
+      setState({
+        profile: null,
+        isLoading: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to load profile',
+      });
+    }
+  }, []);
 
   // Get profile data when user changes
   useEffect(() => {
@@ -36,65 +65,39 @@ export function useProfile() {
     } else {
       setState({ profile: null, isLoading: false, error: null });
     }
-  }, [user?.id]);
-
-  const loadProfile = async () => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
-    try {
-      const result = await profileService.getCurrentProfile();
-      
-      if (result.success) {
-        setState({
-          profile: result.data,
-          isLoading: false,
-          error: null
-        });
-      } else {
-        setState({
-          profile: null,
-          isLoading: false,
-          error: result.error || 'Failed to load profile'
-        });
-      }
-    } catch (error) {
-      setState({
-        profile: null,
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to load profile'
-      });
-    }
-  };
+  }, [user, loadProfile]);
 
   const updateProfile = async (data: { full_name?: string; bio?: string }) => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+
     try {
       await profileService.updateProfile(data);
       await loadProfile(); // Reload the profile data
       return true;
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to update profile'
+        error:
+          error instanceof Error ? error.message : 'Failed to update profile',
       }));
       return false;
     }
   };
 
   const uploadAvatar = async (file: File) => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+
     try {
       const url = await profileService.uploadAvatar(file);
       await loadProfile(); // Reload the profile data
       return url;
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to upload avatar'
+        error:
+          error instanceof Error ? error.message : 'Failed to upload avatar',
       }));
       return null;
     }
@@ -104,6 +107,6 @@ export function useProfile() {
     ...state,
     loadProfile,
     updateProfile,
-    uploadAvatar
+    uploadAvatar,
   };
 }

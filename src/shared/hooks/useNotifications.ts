@@ -29,11 +29,11 @@ export const useNotifications = () => {
   /**
    * Show loading notification
    */
-  const showLoading = useCallback((message: string, promise: Promise<any>) => {
+  const showLoading = useCallback(<T>(message: string, promise: Promise<T>) => {
     toast.promise(promise, {
       loading: message,
       success: 'Operación completada',
-      error: 'Ha ocurrido un error'
+      error: 'Ha ocurrido un error',
     });
   }, []);
 
@@ -41,6 +41,6 @@ export const useNotifications = () => {
     showSuccess,
     showError,
     showInfo,
-    showLoading
+    showLoading,
   };
 };
