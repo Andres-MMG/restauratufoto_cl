@@ -1,8 +1,8 @@
-# ? RestauraTuFoto.cl
+# 🖼️ RestauraTuFoto.cl
 
-## ? Restauraci?n Profesional de Fotograf?as con IA
+## 🔄 Restauración Profesional de Fotografías con IA
 
-RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artificial y t?cnicas de procesamiento de im?genes de ?ltima generaci?n para restaurar fotograf?as da?adas, antiguas o deterioradas.
+RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artificial y técnicas de procesamiento de imágenes de última generación para restaurar fotografías dañadas, antiguas o deterioradas.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -10,58 +10,58 @@ RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artifi
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-## ? Caracter?sticas Principales
+## ✨ Características Principales
 
-### ? Restauraci?n Avanzada
-- **IA de ?ltima Generaci?n**: Algoritmos de machine learning para restauraci?n autom?tica
-- **Efectos Cinematogr?ficos**: Inspirados en t?cnicas de GTA VI para realismo extremo
-- **Correcci?n de Color**: Restauraci?n precisa de colores originales
-- **Eliminaci?n de Ruido**: Tecnolog?a avanzada para eliminar imperfecciones
+### 🎨 Restauración Avanzada
+- **IA de Última Generación**: Algoritmos de machine learning para restauración automática
+- **Efectos Cinematográficos**: Inspirados en técnicas de GTA VI para realismo extremo
+- **Corrección de Color**: Restauración precisa de colores originales
+- **Eliminación de Ruido**: Tecnología avanzada para eliminar imperfecciones
 
-### ?? Herramientas Profesionales
+### 🛠️ Herramientas Profesionales
 - **Editor Interactivo**: Interfaz intuitiva para ajustes manuales
-- **Vista Previa en Tiempo Real**: Visualizaci?n instant?nea de cambios
-- **M?ltiples Formatos**: Soporte para JPG, PNG, TIFF y m?s
-- **Procesamiento en Lotes**: Restaura m?ltiples fotos simult?neamente
+- **Vista Previa en Tiempo Real**: Visualización instantánea de cambios
+- **Múltiples Formatos**: Soporte para JPG, PNG, TIFF y más
+- **Procesamiento en Lotes**: Restaura múltiples fotos simultáneamente
 
-### ? Seguridad y Privacidad
-- **Encriptaci?n de Extremo a Extremo**: Tus fotos est?n protegidas
-- **Almacenamiento Temporal**: Las im?genes se eliminan autom?ticamente
-- **Sin Registro Obligatorio**: Uso an?nimo disponible
-- **Cumplimiento GDPR**: Protecci?n de datos garantizada
+### 🔒 Seguridad y Privacidad
+- **Encriptación de Extremo a Extremo**: Tus fotos están protegidas
+- **Almacenamiento Temporal**: Las imágenes se eliminan automáticamente
+- **Sin Registro Obligatorio**: Uso anónimo disponible
+- **Cumplimiento GDPR**: Protección de datos garantizada
 
-## ? Demo en Vivo
+## 🌐 Demo en Vivo
 
-? **[Ver Demo](https://restauratufoto.cl)** _(Pr?ximamente)_
+🔗 **[Ver Demo](https://restauratufoto.cl)** _(Próximamente)_
 
-## ?? Tecnolog?as Utilizadas
+## 🧰 Tecnologías Utilizadas
 
 ### Frontend
 - **React 18.3** - Biblioteca de interfaz de usuario
-- **TypeScript** - Tipado est?tico para JavaScript
+- **TypeScript** - Tipado estático para JavaScript
 - **Tailwind CSS** - Framework de estilos utilitarios
 - **Framer Motion** - Animaciones fluidas y profesionales
-- **Lucide React** - Iconograf?a moderna
-- **Vite** - Herramienta de construcci?n ultrarr?pida
+- **Lucide React** - Iconografía moderna
+- **Vite** - Herramienta de construcción ultrarrápida
 
 ### Backend & Base de Datos
 - **Supabase** - Backend como servicio
 - **PostgreSQL** - Base de datos relacional
-- **Almacenamiento en la Nube** - Para procesamiento de im?genes
+- **Almacenamiento en la Nube** - Para procesamiento de imágenes
 
 ### Herramientas de Desarrollo
-- **ESLint** - Linting de c?digo
+- **ESLint** - Linting de código
 - **PostCSS** - Procesamiento de CSS
-- **Zustand** - Gesti?n de estado global
+- **Zustand** - Gestión de estado global
 
-## ? Instalaci?n
+## 🚀 Instalación
 
 ### Prerrequisitos
 - Node.js 18+ 
 - npm o yarn
 - Cuenta de Supabase (para desarrollo)
 
-### Pasos de Instalaci?n
+### Pasos de Instalación
 
 ```bash
 # Clonar el repositorio
@@ -87,89 +87,89 @@ VITE_SUPABASE_URL=tu_supabase_url
 VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key
 ```
 
-## ? Casos de Uso
+## 👥 Casos de Uso
 
-### ??????? Familias
+### 👨‍👩‍👧‍👦 Familias
 - Restaurar fotos familiares antiguas
 - Recuperar recuerdos de generaciones pasadas
-- Digitalizar ?lbumes f?sicos deteriorados
+- Digitalizar álbumes físicos deteriorados
 
-### ?? Profesionales
-- Museos y archivos hist?ricos
-- Fot?grafos profesionales
-- Servicios de digitalizaci?n
+### 👔 Profesionales
+- Museos y archivos históricos
+- Fotógrafos profesionales
+- Servicios de digitalización
 
-### ? Artistas y Creativos
-- Restaurar obras de arte fotogr?ficas
-- Mejorar calidad de im?genes vintage
+### 🎭 Artistas y Creativos
+- Restaurar obras de arte fotográficas
+- Mejorar calidad de imágenes vintage
 - Proyectos de arte digital
 
-## ? Caracter?sticas de la Interfaz
+## 🖥️ Características de la Interfaz
 
-### ? Dise?o Moderno
+### 🎯 Diseño Moderno
 - **Responsive Design**: Optimizado para todos los dispositivos
-- **Dark/Light Mode**: Tema adaptable seg?n preferencias
-- **Animaciones Fluidas**: Transiciones cinematogr?ficas
-- **UX Intuitiva**: Interfaz f?cil de usar para todos los niveles
+- **Dark/Light Mode**: Tema adaptable según preferencias
+- **Animaciones Fluidas**: Transiciones cinematográficas
+- **UX Intuitiva**: Interfaz fácil de usar para todos los niveles
 
-### ? Rendimiento
-- **Carga R?pida**: Optimizaciones de Vite y React
+### ⚡ Rendimiento
+- **Carga Rápida**: Optimizaciones de Vite y React
 - **Procesamiento Eficiente**: Algoritmos optimizados
-- **Cach? Inteligente**: Reducci?n de tiempos de espera
-- **PWA Ready**: Funcionalidad de aplicaci?n web progresiva
+- **Caché Inteligente**: Reducción de tiempos de espera
+- **PWA Ready**: Funcionalidad de aplicación web progresiva
 
-## ? Tecnolog?a de Restauraci?n
+## 🔬 Tecnología de Restauración
 
 ### Algoritmos Implementados
-- **Reducci?n de Ruido Adaptativo**
-- **Interpolaci?n Bic?bica Avanzada**
-- **Correcci?n de Perspectiva Autom?tica**
-- **Detecci?n y Reparaci?n de Grietas**
-- **Estabilizaci?n de Color Temporal**
+- **Reducción de Ruido Adaptativo**
+- **Interpolación Bicúbica Avanzada**
+- **Corrección de Perspectiva Automática**
+- **Detección y Reparación de Grietas**
+- **Estabilización de Color Temporal**
 
 ### Efectos Especiales
-- **Efectos Cinematogr?ficos Realistas**
-- **Simulaci?n de Iluminaci?n Natural**
+- **Efectos Cinematográficos Realistas**
+- **Simulación de Iluminación Natural**
 - **Texturas Procedurales**
 - **Post-procesamiento Avanzado**
 
-## ? M?tricas de Calidad
+## 📊 Métricas de Calidad
 
 - **Tiempo de Procesamiento**: < 30 segundos promedio
-- **Calidad de Restauraci?n**: 95%+ satisfacci?n del usuario
+- **Calidad de Restauración**: 95%+ satisfacción del usuario
 - **Formatos Soportados**: 15+ tipos de archivo
-- **Resoluci?n M?xima**: Hasta 8K
+- **Resolución Máxima**: Hasta 8K
 
-## ? Contribuci?n
+## 🤝 Contribución
 
 Este es un proyecto propietario. Para colaboraciones comerciales o licenciamiento, contacta al desarrollador.
 
-## ? Contacto y Soporte
+## 📞 Contacto y Soporte
 
-### ??? Desarrollador
-**Andr?s Mu?oz** - Desarrollador Full Stack
+### 👨‍💻 Desarrollador
+**Andrés Marcelo Martínez Gajardo** - Desarrollador Full Stack
 
-### ? Contacto Comercial
+### 📧 Contacto Comercial
 - **Email**: contacto@restauratufoto.cl
 - **Website**: https://restauratufoto.cl
 - **LinkedIn**: [Perfil del Desarrollador]
 
-### ? Reportar Problemas
-Para reportar bugs o solicitar caracter?sticas, utiliza el sistema de issues de GitHub.
+### 🐛 Reportar Problemas
+Para reportar bugs o solicitar características, utiliza el sistema de issues de GitHub.
 
-## ? Licencia
+## 📄 Licencia
 
-? 2025 RestauraTuFoto.cl - Todos los derechos reservados.
+© 2025 RestauraTuFoto.cl - Todos los derechos reservados.
 
-Este software est? protegido por derechos de autor y licencias comerciales. 
-Ver archivo `LICENSE.md` para m?s detalles.
+Este software está protegido por derechos de autor y licencias comerciales. 
+Ver archivo `LICENSE.md` para más detalles.
 
 ---
 
 <div align="center">
 
-**? Si te gusta este proyecto, dale una estrella en GitHub ?**
+**⭐ Si te gusta este proyecto, dale una estrella en GitHub ⭐**
 
-Hecho con ?? en Chile ??
+Hecho con ❤️ en Chile 🇨🇱
 
 </div>
