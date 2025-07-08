@@ -9,12 +9,15 @@ En el presente documento, expongo la arquitectura que he diseñado para Restaura
 He adoptado tres pilares arquitectónicos esenciales:
 
 ### 1. Organización Feature-First
+
 Estructuré el código por funcionalidades específicas siguiendo los principios de Clean Architecture (Martin, 2017), permitiendo que cada módulo encapsule completamente su dominio de negocio.
 
 ### 2. Metodología Atomic Design
+
 Implementé Atomic Design (Frost, 2016) para organizar componentes de UI mediante composición jerárquica: átomos → moléculas → organismos.
 
 ### 3. Arquitectura Limpia por Capas
+
 Establezco separación clara de responsabilidades organizando el sistema en capas: presentación, lógica de negocio y acceso a datos.
 
 ## Estructura del Proyecto
@@ -121,29 +124,32 @@ Basándome en el análisis del sistema actual, propongo estas mejoras priorizada
 
 ## Evaluación Arquitectónica
 
-| Aspecto | Estado Actual | Mejora Propuesta | Beneficio |
-|---------|---------------|------------------|-----------|
-| **Error Handling** | Inconsistente | Patrones centralizados | Mejor UX |
-| **Type Safety** | Permisivo con `any` | Strict mode | Menos bugs |
-| **Testing** | Sin infraestructura | Jest + Testing Library | Confianza |
-| **Performance** | Bundle monolítico | Code splitting | Mejor WV |
-| **Caching** | Sin estrategia | Service Worker + API | Reducción costos |
+| Aspecto            | Estado Actual       | Mejora Propuesta       | Beneficio        |
+| ------------------ | ------------------- | ---------------------- | ---------------- |
+| **Error Handling** | Inconsistente       | Patrones centralizados | Mejor UX         |
+| **Type Safety**    | Permisivo con `any` | Strict mode            | Menos bugs       |
+| **Testing**        | Sin infraestructura | Jest + Testing Library | Confianza        |
+| **Performance**    | Bundle monolítico   | Code splitting         | Mejor WV         |
+| **Caching**        | Sin estrategia      | Service Worker + API   | Reducción costos |
 
 ## Mejoras Futuras Integradas
 
 Actualizo mi roadmap basándome en las recomendaciones:
 
 ### Corto Plazo (1-3 meses)
+
 - Implementar error handling con boundary components
 - Migrar a TypeScript strict mode
 - Establecer infraestructura básica de testing
 
 ### Mediano Plazo (3-6 meses)
+
 - Implementar code splitting estratégico
 - Desarrollar sistema de cache multinivel
 - Refactorizar hacia custom hooks patterns
 
 ### Largo Plazo (6-12 meses)
+
 - Evaluar micro-frontend architecture
 - Implementar capacidades PWA
 - Desarrollar sistema de monitoreo completo
@@ -156,6 +162,6 @@ Las mejoras propuestas siguen un enfoque pragmático, priorizando mayor retorno 
 
 ## Referencias
 
-Frost, B. (2016). *Atomic Design*. Brad Frost Web. https://atomicdesign.bradfrost.com/
+Frost, B. (2016). _Atomic Design_. Brad Frost Web. https://atomicdesign.bradfrost.com/
 
-Martin, R. C. (2017). *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Prentice Hall.
+Martin, R. C. (2017). _Clean Architecture: A Craftsman's Guide to Software Structure and Design_. Prentice Hall.

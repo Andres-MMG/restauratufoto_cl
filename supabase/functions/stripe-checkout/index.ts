@@ -2,7 +2,10 @@ import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import Stripe from 'npm:stripe@17.7.0';
 import { createClient } from 'npm:@supabase/supabase-js@2.49.1';
 
-const supabase = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL') ?? '',
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+);
 const stripeSecret = Deno.env.get('STRIPE_SECRET_KEY')!;
 const stripe = new Stripe(stripeSecret, {
   appInfo: {
@@ -33,7 +36,7 @@ function corsResponse(body: string | object | null, status = 200) {
   });
 }
 
-Deno.serve(async (req) => {
+Deno.serve(async req => {
   try {
     if (req.method === 'OPTIONS') {
       return corsResponse({}, 204);
@@ -52,7 +55,7 @@ Deno.serve(async (req) => {
         price_id: 'string',
         success_url: 'string',
         mode: { values: ['payment', 'subscription'] },
-      },
+      }
     );
 
     if (error) {
@@ -82,9 +85,15 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (getCustomerError) {
-      console.error('Failed to fetch customer information from the database', getCustomerError);
+      console.error(
+        'Failed to fetch customer information from the database',
+        getCustomerError
+      );
 
-      return corsResponse({ error: 'Failed to fetch customer information' }, 500);
+      return corsResponse(
+        { error: 'Failed to fetch customer information' },
+        500
+      );
     }
 
     let customerId;
@@ -100,78 +109,125 @@ Deno.serve(async (req) => {
         },
       });
 
-      console.log(`Created new Stripe customer ${newCustomer.id} for user ${user.id}`);
+      console.log(
+        `Created new Stripe customer ${newCustomer.id} for user ${user.id}`
+      );
 
-      const { error: createCustomerError } = await supabase.from('stripe_customers').insert({
-        user_id: user.id,
-        customer_id: newCustomer.id,
-      });
+      const { error: createCustomerError } = await supabase
+        .from('stripe_customers')
+        .insert({
+          user_id: user.id,
+          customer_id: newCustomer.id,
+        });
 
       if (createCustomerError) {
-        console.error('Failed to save customer information in the database', createCustomerError);
+        console.error(
+          'Failed to save customer information in the database',
+          createCustomerError
+        );
 
         // Try to clean up both the Stripe customer and subscription record
         try {
           await stripe.customers.del(newCustomer.id);
-          await supabase.from('stripe_subscriptions').delete().eq('customer_id', newCustomer.id);
+          await supabase
+            .from('stripe_subscriptions')
+            .delete()
+            .eq('customer_id', newCustomer.id);
         } catch (deleteError) {
-          console.error('Failed to clean up after customer mapping error:', deleteError);
+          console.error(
+            'Failed to clean up after customer mapping error:',
+            deleteError
+          );
         }
 
-        return corsResponse({ error: 'Failed to create customer mapping' }, 500);
+        return corsResponse(
+          { error: 'Failed to create customer mapping' },
+          500
+        );
       }
 
       if (mode === 'subscription') {
-        const { error: createSubscriptionError } = await supabase.from('stripe_subscriptions').insert({
-          customer_id: newCustomer.id,
-          status: 'not_started',
-        });
+        const { error: createSubscriptionError } = await supabase
+          .from('stripe_subscriptions')
+          .insert({
+            customer_id: newCustomer.id,
+            status: 'not_started',
+          });
 
         if (createSubscriptionError) {
-          console.error('Failed to save subscription in the database', createSubscriptionError);
+          console.error(
+            'Failed to save subscription in the database',
+            createSubscriptionError
+          );
 
           // Try to clean up the Stripe customer since we couldn't create the subscription
           try {
             await stripe.customers.del(newCustomer.id);
           } catch (deleteError) {
-            console.error('Failed to delete Stripe customer after subscription creation error:', deleteError);
+            console.error(
+              'Failed to delete Stripe customer after subscription creation error:',
+              deleteError
+            );
           }
 
-          return corsResponse({ error: 'Unable to save the subscription in the database' }, 500);
+          return corsResponse(
+            { error: 'Unable to save the subscription in the database' },
+            500
+          );
         }
       }
 
       customerId = newCustomer.id;
 
-      console.log(`Successfully set up new customer ${customerId} with subscription record`);
+      console.log(
+        `Successfully set up new customer ${customerId} with subscription record`
+      );
     } else {
       customerId = customer.customer_id;
 
       if (mode === 'subscription') {
         // Verify subscription exists for existing customer
-        const { data: subscription, error: getSubscriptionError } = await supabase
-          .from('stripe_subscriptions')
-          .select('status')
-          .eq('customer_id', customerId)
-          .maybeSingle();
+        const { data: subscription, error: getSubscriptionError } =
+          await supabase
+            .from('stripe_subscriptions')
+            .select('status')
+            .eq('customer_id', customerId)
+            .maybeSingle();
 
         if (getSubscriptionError) {
-          console.error('Failed to fetch subscription information from the database', getSubscriptionError);
+          console.error(
+            'Failed to fetch subscription information from the database',
+            getSubscriptionError
+          );
 
-          return corsResponse({ error: 'Failed to fetch subscription information' }, 500);
+          return corsResponse(
+            { error: 'Failed to fetch subscription information' },
+            500
+          );
         }
 
         if (!subscription) {
           // Create subscription record for existing customer if missing
-          const { error: createSubscriptionError } = await supabase.from('stripe_subscriptions').insert({
-            customer_id: customerId,
-            status: 'not_started',
-          });
+          const { error: createSubscriptionError } = await supabase
+            .from('stripe_subscriptions')
+            .insert({
+              customer_id: customerId,
+              status: 'not_started',
+            });
 
           if (createSubscriptionError) {
-            console.error('Failed to create subscription record for existing customer', createSubscriptionError);
+            console.error(
+              'Failed to create subscription record for existing customer',
+              createSubscriptionError
+            );
 
-            return corsResponse({ error: 'Failed to create subscription record for existing customer' }, 500);
+            return corsResponse(
+              {
+                error:
+                  'Failed to create subscription record for existing customer',
+              },
+              500
+            );
           }
         }
       }
@@ -192,7 +248,9 @@ Deno.serve(async (req) => {
       cancel_url,
     });
 
-    console.log(`Created checkout session ${session.id} for customer ${customerId}`);
+    console.log(
+      `Created checkout session ${session.id} for customer ${customerId}`
+    );
 
     return corsResponse({ sessionId: session.id, url: session.url });
   } catch (error: any) {
@@ -204,7 +262,10 @@ Deno.serve(async (req) => {
 type ExpectedType = 'string' | { values: string[] };
 type Expectations<T> = { [K in keyof T]: ExpectedType };
 
-function validateParameters<T extends Record<string, any>>(values: T, expected: Expectations<T>): string | undefined {
+function validateParameters<T extends Record<string, any>>(
+  values: T,
+  expected: Expectations<T>
+): string | undefined {
   for (const parameter in values) {
     const expectation = expected[parameter];
     const value = values[parameter];

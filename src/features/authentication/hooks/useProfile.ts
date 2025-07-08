@@ -26,7 +26,7 @@ export function useProfile() {
   const [state, setState] = useState<ProfileState>({
     profile: null,
     isLoading: false,
-    error: null
+    error: null,
   });
 
   // Get profile data when user changes
@@ -40,35 +40,36 @@ export function useProfile() {
 
   const loadProfile = async () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+
     try {
       const result = await profileService.getCurrentProfile();
-      
+
       if (result.success) {
         setState({
           profile: result.data,
           isLoading: false,
-          error: null
+          error: null,
         });
       } else {
         setState({
           profile: null,
           isLoading: false,
-          error: result.error || 'Failed to load profile'
+          error: result.error || 'Failed to load profile',
         });
       }
     } catch (error) {
       setState({
         profile: null,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to load profile'
+        error:
+          error instanceof Error ? error.message : 'Failed to load profile',
       });
     }
   };
 
   const updateProfile = async (data: { full_name?: string; bio?: string }) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+
     try {
       await profileService.updateProfile(data);
       await loadProfile(); // Reload the profile data
@@ -77,7 +78,8 @@ export function useProfile() {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to update profile'
+        error:
+          error instanceof Error ? error.message : 'Failed to update profile',
       }));
       return false;
     }
@@ -85,7 +87,7 @@ export function useProfile() {
 
   const uploadAvatar = async (file: File) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+
     try {
       const url = await profileService.uploadAvatar(file);
       await loadProfile(); // Reload the profile data
@@ -94,7 +96,8 @@ export function useProfile() {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to upload avatar'
+        error:
+          error instanceof Error ? error.message : 'Failed to upload avatar',
       }));
       return null;
     }
@@ -104,6 +107,6 @@ export function useProfile() {
     ...state,
     loadProfile,
     updateProfile,
-    uploadAvatar
+    uploadAvatar,
   };
 }

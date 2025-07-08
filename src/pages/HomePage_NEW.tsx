@@ -16,17 +16,17 @@ import { gsap } from '../lib/gsap';
  */
 export function HomePage() {
   const navigate = useNavigate();
-  
+
   // 🎬 Referencias para animaciones GTA VI
   const heroRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const examplesRef = useRef<HTMLDivElement>(null);
-  
+
   const handleGetStarted = () => {
     navigate('/app');
   };
-  
+
   const handleSelectPlan = (planId: string) => {
     navigate(`/payment?plan=${planId}`);
   };
@@ -43,69 +43,72 @@ export function HomePage() {
     const heroTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: heroSection,
-        start: "top top",
-        end: "bottom center",
+        start: 'top top',
+        end: 'bottom center',
         scrub: 1,
         pin: true,
-        onUpdate: (self) => {
+        onUpdate: self => {
           const progress = self.progress;
-          
+
           // Efecto de "alejar la cámara" en el slider
           gsap.set(sliderContainer, {
-            scale: 1.25 - (progress * 0.25), // De 1.25 a 1.0
-            transformOrigin: "center center"
+            scale: 1.25 - progress * 0.25, // De 1.25 a 1.0
+            transformOrigin: 'center center',
           });
 
           // Desvanecimiento gradual del contenido de texto
           gsap.set(heroContent, {
-            opacity: 1 - (progress * 1.2),
-            y: progress * -50
+            opacity: 1 - progress * 1.2,
+            y: progress * -50,
           });
 
           // Efecto de zoom out en todo el hero
           gsap.set(heroSection, {
-            scale: 1 + (progress * 0.1),
-            filter: `blur(${progress * 2}px)`
+            scale: 1 + progress * 0.1,
+            filter: `blur(${progress * 2}px)`,
           });
-        }
-      }
+        },
+      },
     });
 
     return () => {
       heroTimeline.kill();
     };
   }, []);
-  
+
   return (
     <div className="relative">
       {/* 🎯 HERO SECTION - Con efectos GTA VI */}
-      <div 
+      <div
         ref={heroRef}
         className="min-h-screen bg-gradient-to-br from-primary-600 to-primary-800 relative overflow-hidden"
       >
         <div className="container max-w-md mx-auto px-4 py-8 relative z-10">
           <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
-            
             {/* Contenido que se desvanece */}
             <div ref={heroContentRef} className="text-center mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 Restaura Tus Recuerdos
               </h1>
               <p className="text-gray-600 text-lg mb-6">
-                Devuelve la vida a tus fotos antiguas con IA de última generación.
+                Devuelve la vida a tus fotos antiguas con IA de última
+                generación.
               </p>
-              <button 
+              <button
                 onClick={handleGetStarted}
                 className="btn-primary text-lg px-8 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 Sube una foto para probar
               </button>
             </div>
-            
+
             {/* ComparisonSlider con efecto de escala */}
-            <div ref={sliderContainerRef} className="rounded-2xl overflow-hidden shadow-xl">
-              <ComparisonSlider 
-                beforeImage="https://images.pexels.com/photos/5967029/pexels-photo-5967029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+            <div
+              ref={sliderContainerRef}
+              className="rounded-2xl overflow-hidden shadow-xl"
+            >
+              <ComparisonSlider
+                beforeImage="https://images.pexels.com/photos/5967029/pexels-photo-5967029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 afterImage="https://images.pexels.com/photos/2781760/pexels-photo-2781760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 autoSlide={true}
               />

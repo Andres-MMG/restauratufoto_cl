@@ -13,10 +13,12 @@ type FaqProps = {
 /**
  * Reusable FAQ component that displays a list of questions and answers
  */
-export function FAQ({ items, title = "Preguntas Frecuentes" }: FaqProps) {
+export function FAQ({ items, title = 'Preguntas Frecuentes' }: FaqProps) {
   return (
     <div className="max-w-3xl mx-auto">
-      {title && <h3 className="text-xl font-semibold mb-4 text-center">{title}</h3>}
+      {title && (
+        <h3 className="text-xl font-semibold mb-4 text-center">{title}</h3>
+      )}
       <div className="space-y-4">
         {items.map((faq, index) => (
           <div key={index} className="bg-white p-4 rounded-lg shadow-sm">

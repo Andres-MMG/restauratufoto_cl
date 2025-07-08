@@ -20,14 +20,13 @@ export function PaymentSuccess({ plan, onContinue }: PaymentSuccessProps) {
       <h1 className="text-2xl font-bold mb-2">¡Pago Completado!</h1>
       <p className="text-gray-600 mb-6">
         Tu compra de {plan.name} ha sido procesada correctamente.
-        {plan.id !== 'subscription' && ` Se han añadido ${plan.credits} créditos a tu cuenta.`}
+        {plan.id !== 'subscription' &&
+          ` Se han añadido ${plan.credits} créditos a tu cuenta.`}
       </p>
       <p className="text-sm text-gray-500 mb-4">
         Serás redirigido automáticamente en unos segundos...
       </p>
-      <Button onClick={onContinue}>
-        Ir a la Aplicación
-      </Button>
+      <Button onClick={onContinue}>Ir a la Aplicación</Button>
     </div>
   );
 }

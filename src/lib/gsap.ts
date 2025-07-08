@@ -22,17 +22,17 @@ export const cleanupGSAP = () => {
 export const gtaPresets = {
   heroAnimation: {
     duration: 1,
-    ease: "none",
+    ease: 'none',
     scrub: 1,
   },
   maskAnimation: {
     duration: 1,
-    ease: "power2.inOut",
+    ease: 'power2.inOut',
     scrub: 1,
   },
   fadeAnimation: {
     duration: 1,
-    ease: "none",
+    ease: 'none',
     scrub: 1,
   },
 };
@@ -51,7 +51,7 @@ export const isMobile = () => {
 export const getResponsiveConfig = () => {
   const mobile = isMobile();
   const reducedMotion = !isAnimationSupported();
-  
+
   return {
     intensity: mobile ? 0.5 : 1,
     shouldAnimate: !reducedMotion,
