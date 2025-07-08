@@ -13,18 +13,21 @@ RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artifi
 ## ✨ Características Principales
 
 ### 🎨 Restauración Avanzada
+
 - **IA de Última Generación**: Algoritmos de machine learning para restauración automática
 - **Efectos Cinematográficos**: Inspirados en técnicas de GTA VI para realismo extremo
 - **Corrección de Color**: Restauración precisa de colores originales
 - **Eliminación de Ruido**: Tecnología avanzada para eliminar imperfecciones
 
 ### 🛠️ Herramientas Profesionales
+
 - **Editor Interactivo**: Interfaz intuitiva para ajustes manuales
 - **Vista Previa en Tiempo Real**: Visualización instantánea de cambios
 - **Múltiples Formatos**: Soporte para JPG, PNG, TIFF y más
 - **Procesamiento en Lotes**: Restaura múltiples fotos simultáneamente
 
 ### 🔒 Seguridad y Privacidad
+
 - **Encriptación de Extremo a Extremo**: Tus fotos están protegidas
 - **Almacenamiento Temporal**: Las imágenes se eliminan automáticamente
 - **Sin Registro Obligatorio**: Uso anónimo disponible
@@ -37,6 +40,7 @@ RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artifi
 ## 🧰 Tecnologías Utilizadas
 
 ### Frontend
+
 - **React 18.3** - Biblioteca de interfaz de usuario
 - **TypeScript** - Tipado estático para JavaScript
 - **Tailwind CSS** - Framework de estilos utilitarios
@@ -45,11 +49,13 @@ RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artifi
 - **Vite** - Herramienta de construcción ultrarrápida
 
 ### Backend & Base de Datos
+
 - **Supabase** - Backend como servicio
 - **PostgreSQL** - Base de datos relacional
 - **Almacenamiento en la Nube** - Para procesamiento de imágenes
 
 ### Herramientas de Desarrollo
+
 - **ESLint** - Linting de código
 - **PostCSS** - Procesamiento de CSS
 - **Zustand** - Gestión de estado global
@@ -57,7 +63,8 @@ RestauraTuFoto.cl es una plataforma web avanzada que utiliza inteligencia artifi
 ## 🚀 Instalación
 
 ### Prerrequisitos
-- Node.js 18+ 
+
+- Node.js 18+
 - npm o yarn
 - Cuenta de Supabase (para desarrollo)
 
@@ -90,16 +97,19 @@ VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key
 ## 👥 Casos de Uso
 
 ### 👨‍👩‍👧‍👦 Familias
+
 - Restaurar fotos familiares antiguas
 - Recuperar recuerdos de generaciones pasadas
 - Digitalizar álbumes físicos deteriorados
 
 ### 👔 Profesionales
+
 - Museos y archivos históricos
 - Fotógrafos profesionales
 - Servicios de digitalización
 
 ### 🎭 Artistas y Creativos
+
 - Restaurar obras de arte fotográficas
 - Mejorar calidad de imágenes vintage
 - Proyectos de arte digital
@@ -107,12 +117,14 @@ VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key
 ## 🖥️ Características de la Interfaz
 
 ### 🎯 Diseño Moderno
+
 - **Responsive Design**: Optimizado para todos los dispositivos
 - **Dark/Light Mode**: Tema adaptable según preferencias
 - **Animaciones Fluidas**: Transiciones cinematográficas
 - **UX Intuitiva**: Interfaz fácil de usar para todos los niveles
 
 ### ⚡ Rendimiento
+
 - **Carga Rápida**: Optimizaciones de Vite y React
 - **Procesamiento Eficiente**: Algoritmos optimizados
 - **Caché Inteligente**: Reducción de tiempos de espera
@@ -121,6 +133,7 @@ VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key
 ## 🔬 Tecnología de Restauración
 
 ### Algoritmos Implementados
+
 - **Reducción de Ruido Adaptativo**
 - **Interpolación Bicúbica Avanzada**
 - **Corrección de Perspectiva Automática**
@@ -128,6 +141,7 @@ VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key
 - **Estabilización de Color Temporal**
 
 ### Efectos Especiales
+
 - **Efectos Cinematográficos Realistas**
 - **Simulación de Iluminación Natural**
 - **Texturas Procedurales**
@@ -147,21 +161,24 @@ Este es un proyecto propietario. Para colaboraciones comerciales o licenciamient
 ## 📞 Contacto y Soporte
 
 ### 👨‍💻 Desarrollador
+
 **Andrés Marcelo Martínez Gajardo** - Desarrollador Full Stack
 
 ### 📧 Contacto Comercial
+
 - **Email**: contacto@restauratufoto.cl
 - **Website**: https://restauratufoto.cl
 - **LinkedIn**: [Perfil del Desarrollador]
 
 ### 🐛 Reportar Problemas
+
 Para reportar bugs o solicitar características, utiliza el sistema de issues de GitHub.
 
 ## 📄 Licencia
 
 © 2025 RestauraTuFoto.cl - Todos los derechos reservados.
 
-Este software está protegido por derechos de autor y licencias comerciales. 
+Este software está protegido por derechos de autor y licencias comerciales.
 Ver archivo `LICENSE.md` para más detalles.
 
 ---

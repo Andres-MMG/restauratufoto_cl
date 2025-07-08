@@ -18,22 +18,22 @@ export function BenefitsList({ benefits }: BenefitsListProps) {
     {
       icon: '✨',
       title: 'Calidad Superior',
-      description: 'Resultados profesionales garantizados'
+      description: 'Resultados profesionales garantizados',
     },
     {
       icon: '⚡',
       title: 'Súper Rápido',
-      description: 'Resultados en segundos, no en días'
+      description: 'Resultados en segundos, no en días',
     },
     {
       icon: '🔒',
       title: '100% Seguro',
-      description: 'Tus fotos están protegidas'
-    }
+      description: 'Tus fotos están protegidas',
+    },
   ];
-  
+
   const displayBenefits = benefits || defaultBenefits;
-  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {displayBenefits.map((benefit, index) => (

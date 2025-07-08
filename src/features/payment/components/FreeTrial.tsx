@@ -16,10 +16,10 @@ type FreeTrialProps = {
  * Free trial component for offering a free credit
  */
 export function FreeTrial({
-  title = "¿No estás seguro? Prueba gratis",
-  description = "Obtén 1 crédito gratis para probar nuestro servicio sin compromiso.",
-  buttonText = "Prueba Gratuita",
-  className = ""
+  title = '¿No estás seguro? Prueba gratis',
+  description = 'Obtén 1 crédito gratis para probar nuestro servicio sin compromiso.',
+  buttonText = 'Prueba Gratuita',
+  className = '',
 }: FreeTrialProps) {
   const { isAuthenticated, addCredits } = useAuthStore();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -31,7 +31,7 @@ export function FreeTrial({
       setIsRegisterModalOpen(true);
       return;
     }
-    
+
     // Add 1 free credit and navigate to app
     addCredits(1);
     navigate('/app');
@@ -42,20 +42,18 @@ export function FreeTrial({
       <div className={`p-6 bg-primary-50 rounded-lg text-center ${className}`}>
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <p className="text-gray-600 mb-4">{description}</p>
-        <Button onClick={handleFreeTrial}>
-          {buttonText}
-        </Button>
+        <Button onClick={handleFreeTrial}>{buttonText}</Button>
       </div>
-      
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         onRegisterClick={() => {
           setIsLoginModalOpen(false);
           setIsRegisterModalOpen(true);
         }}
       />
-      
+
       <RegisterModal
         isOpen={isRegisterModalOpen}
         onClose={() => setIsRegisterModalOpen(false)}

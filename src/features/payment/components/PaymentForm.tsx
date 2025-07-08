@@ -14,39 +14,43 @@ type PaymentFormProps = {
 /**
  * Credit card payment form component
  */
-export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) {
+export function PaymentForm({
+  plan,
+  onSubmit,
+  isProcessing,
+}: PaymentFormProps) {
   // Form state
   const [cardNumber, setCardNumber] = useState('');
   const [cardName, setCardName] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
-  
+
   // Form errors
   const [cardNumberError, setCardNumberError] = useState('');
   const [cardNameError, setCardNameError] = useState('');
   const [expiryError, setExpiryError] = useState('');
   const [cvcError, setCvcError] = useState('');
-  
+
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only allow numbers and spaces
     const value = e.target.value.replace(/[^\d\s]/g, '');
     setCardNumber(value);
   };
-  
+
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/[^\d]/g, '');
-    
+
     // Format as MM/YY
     if (value.length > 2) {
       value = value.slice(0, 2) + '/' + value.slice(2, 4);
     }
-    
+
     setExpiry(value);
   };
-  
+
   const validateForm = (): boolean => {
     let isValid = true;
-    
+
     // Validate card number
     if (!cardNumber) {
       setCardNumberError('Número de tarjeta requerido');
@@ -57,7 +61,7 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
     } else {
       setCardNumberError('');
     }
-    
+
     // Validate card name
     if (!cardName) {
       setCardNameError('Nombre requerido');
@@ -65,7 +69,7 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
     } else {
       setCardNameError('');
     }
-    
+
     // Validate expiry
     if (!expiry) {
       setExpiryError('Fecha requerida');
@@ -76,7 +80,7 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
     } else {
       setExpiryError('');
     }
-    
+
     // Validate CVC
     if (!cvc) {
       setCvcError('CVC requerido');
@@ -87,18 +91,18 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
     } else {
       setCvcError('');
     }
-    
+
     return isValid;
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     await onSubmit();
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Input
@@ -109,15 +113,15 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
         maxLength={19}
         error={cardNumberError}
       />
-      
+
       <Input
         label="Nombre en la Tarjeta"
         value={cardName}
-        onChange={(e) => setCardName(e.target.value)}
+        onChange={e => setCardName(e.target.value)}
         placeholder="Juan Pérez"
         error={cardNameError}
       />
-      
+
       <div className="grid grid-cols-2 gap-4">
         <Input
           label="Fecha de Expiración"
@@ -127,26 +131,22 @@ export function PaymentForm({ plan, onSubmit, isProcessing }: PaymentFormProps) 
           maxLength={5}
           error={expiryError}
         />
-        
+
         <Input
           label="CVC"
           value={cvc}
-          onChange={(e) => setCvc(e.target.value.replace(/[^\d]/g, ''))}
+          onChange={e => setCvc(e.target.value.replace(/[^\d]/g, ''))}
           placeholder="123"
           maxLength={4}
           error={cvcError}
         />
       </div>
-      
-      <Button
-        type="submit"
-        className="w-full"
-        isLoading={isProcessing}
-      >
+
+      <Button type="submit" className="w-full" isLoading={isProcessing}>
         <CreditCard size={16} className="mr-2" />
         Pagar {formatCurrency(plan.price)}
       </Button>
-      
+
       <div className="text-xs text-gray-500 text-center">
         Transacción segura y encriptada. Tus datos están protegidos.
       </div>

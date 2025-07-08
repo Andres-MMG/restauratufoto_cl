@@ -74,9 +74,9 @@ export default {
         '5xl': ['3rem', { lineHeight: '1.2' }],
       },
       spacing: {
-        '18': '4.5rem',
-        '112': '28rem',
-        '128': '32rem',
+        18: '4.5rem',
+        112: '28rem',
+        128: '32rem',
       },
       animation: {
         'slide-in': 'slide-in 0.3s ease-out',

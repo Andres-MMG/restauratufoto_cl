@@ -19,24 +19,28 @@ export function OrderSummary({ plan }: OrderSummaryProps) {
           <span>{formatCurrency(plan.price)}</span>
         </div>
         <div className="text-sm text-gray-500 mb-4">
-          {plan.id === 'single' ? '1 crédito' : 
-           plan.id === 'pack10' ? '10 créditos' : 
-           'Créditos ilimitados (mensual)'}
+          {plan.id === 'single'
+            ? '1 crédito'
+            : plan.id === 'pack10'
+              ? '10 créditos'
+              : 'Créditos ilimitados (mensual)'}
         </div>
         <div className="border-t pt-2 flex justify-between font-semibold">
           <span>Total</span>
           <span>{formatCurrency(plan.price)}</span>
         </div>
       </div>
-      
+
       <div className="text-sm text-gray-500">
-        <p className="mb-2">
-          Métodos de pago aceptados:
-        </p>
+        <p className="mb-2">Métodos de pago aceptados:</p>
         <div className="flex gap-2">
           <div className="bg-gray-100 px-2 py-1 rounded text-xs">Visa</div>
-          <div className="bg-gray-100 px-2 py-1 rounded text-xs">Mastercard</div>
-          <div className="bg-gray-100 px-2 py-1 rounded text-xs">American Express</div>
+          <div className="bg-gray-100 px-2 py-1 rounded text-xs">
+            Mastercard
+          </div>
+          <div className="bg-gray-100 px-2 py-1 rounded text-xs">
+            American Express
+          </div>
           <div className="bg-gray-100 px-2 py-1 rounded text-xs">PayPal</div>
         </div>
       </div>

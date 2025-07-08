@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getCurrentUser, signIn, signOut, signUp } from '../services/authService';
+import {
+  getCurrentUser,
+  signIn,
+  signOut,
+  signUp,
+} from '../services/authService';
 
 type User = {
   id: string;
@@ -17,7 +22,7 @@ type AuthState = {
   register: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   addCredits: (amount: number) => void;
-  useCredit: () => boolean;
+  consumeCredit: () => boolean;
   checkSession: () => Promise<void>;
 };
 
@@ -33,110 +38,112 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       error: null,
       isAuthenticated: false,
-      
+
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const { error } = await signIn(email, password);
-          
+
           if (error) {
             set({ error: error.message, isLoading: false });
             return;
           }
-          
+
           const user = await getCurrentUser();
-          
+
           if (user) {
-            set({ 
+            set({
               user: { id: user.id, email: user.email as string },
               isAuthenticated: true,
-              isLoading: false
+              isLoading: false,
             });
           } else {
-            set({ error: 'No se pudo obtener la información del usuario.', isLoading: false });
+            set({
+              error: 'No se pudo obtener la información del usuario.',
+              isLoading: false,
+            });
           }
-        } catch (e) {
+        } catch {
           set({ error: 'Error al iniciar sesión.', isLoading: false });
         }
       },
-      
+
       register: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const { error } = await signUp(email, password);
-          
+
           if (error) {
             set({ error: error.message, isLoading: false });
             return;
           }
-          
+
           // Auto-login after registration
           await get().login(email, password);
-          
-        } catch (e) {
+        } catch {
           set({ error: 'Error al registrar usuario.', isLoading: false });
         }
       },
-      
+
       logout: async () => {
         set({ isLoading: true });
-        
+
         try {
           await signOut();
-          set({ 
+          set({
             user: null,
             isAuthenticated: false,
             isLoading: false,
-            credits: 0
+            credits: 0,
           });
-        } catch (e) {
+        } catch {
           set({ error: 'Error al cerrar sesión.', isLoading: false });
         }
       },
-      
+
       checkSession: async () => {
         set({ isLoading: true });
-        
+
         try {
           const user = await getCurrentUser();
-          
+
           if (user) {
-            set({ 
+            set({
               user: { id: user.id, email: user.email as string },
               isAuthenticated: true,
-              isLoading: false
+              isLoading: false,
             });
           } else {
             set({ isLoading: false });
           }
-        } catch (e) {
+        } catch {
           set({ isLoading: false });
         }
       },
-      
+
       addCredits: (amount: number) => {
         set(state => ({ credits: state.credits + amount }));
       },
-      
-      useCredit: () => {
+
+      consumeCredit: () => {
         const { credits } = get();
-        
+
         if (credits <= 0) {
           return false;
         }
-        
+
         set(state => ({ credits: state.credits - 1 }));
         return true;
-      }
+      },
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ 
+      partialize: state => ({
         user: state.user,
         credits: state.credits,
-        isAuthenticated: state.isAuthenticated
+        isAuthenticated: state.isAuthenticated,
       }),
     }
   )

@@ -33,7 +33,7 @@ export const useNotifications = () => {
     toast.promise(promise, {
       loading: message,
       success: 'Operación completada',
-      error: 'Ha ocurrido un error'
+      error: 'Ha ocurrido un error',
     });
   }, []);
 
@@ -41,6 +41,6 @@ export const useNotifications = () => {
     showSuccess,
     showError,
     showInfo,
-    showLoading
+    showLoading,
   };
 };

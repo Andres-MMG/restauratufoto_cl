@@ -23,7 +23,7 @@ Las siguientes tablas tienen restricciones de acceso directo:
 
 El acceso a las funcionalidades está controlado de la siguiente manera:
 
-1. **Prueba gratuita**: 
+1. **Prueba gratuita**:
    - Acceso solo a través de la función de Node.js `check-trial`
    - La función de Node.js llama al procedimiento SQL `check_trial_availability`
    - No hay acceso directo a las tablas `trial_quota` o `trial_usage`

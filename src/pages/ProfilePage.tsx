@@ -10,7 +10,7 @@ import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 export function ProfilePage() {
   const { isAuthenticated } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
-  
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -21,20 +21,16 @@ export function ProfilePage() {
       </div>
     );
   }
-  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Mi Cuenta</h1>
-      
+
       <div className="max-w-2xl">
         {isEditing ? (
-          <ProfileEditor
-            onSave={() => setIsEditing(false)}
-          />
+          <ProfileEditor onSave={() => setIsEditing(false)} />
         ) : (
-          <ProfileDisplay
-            onEdit={() => setIsEditing(true)}
-          />
+          <ProfileDisplay onEdit={() => setIsEditing(true)} />
         )}
       </div>
     </div>
