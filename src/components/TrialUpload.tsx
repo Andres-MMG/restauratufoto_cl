@@ -3,11 +3,12 @@ import { Upload, AlertCircle, ArrowRight } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { ComparisonSlider } from './ComparisonSlider';
-import { delay, isValidEmail } from '../shared/utils/helpers';
-import { generateProcessedImageUrl } from '../features/photo-restoration/services/imageProcessing';
-import { supabase } from '../shared/config/supabase';
+import { generateProcessedImageUrl, delay, isValidEmail } from '../lib/utils';
+import { supabase } from '../lib/supabase';
+import { useAuthStore } from '../store/authStore';
 
 export function TrialUpload() {
+  const { user } = useAuthStore();
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -47,6 +48,12 @@ export function TrialUpload() {
   
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Si el usuario ya está autenticado y ya usó el trial
+    if (user && user.trial_used) {
+      setError('Ya has usado tu prueba gratuita. Por favor, compra créditos para continuar.');
+      return;
+    }
     
     if (!isValidEmail(email)) {
       setError('Por favor, ingresa un email válido.');
@@ -88,6 +95,12 @@ export function TrialUpload() {
     try {
       // Here you would verify the code with your backend
       await delay(1000); // Simulated verification
+      
+      // Marcar trial como usado si el usuario está autenticado
+      if (user) {
+        await supabase.rpc('mark_trial_used', { user_id: user.id });
+      }
+      
       setIsVerified(true);
       
       // If file was already selected, process it

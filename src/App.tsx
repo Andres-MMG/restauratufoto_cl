@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import { MainLayout } from './shared/components/layout/MainLayout';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { AppPage } from './pages/AppPage';
 import { PricingPage } from './pages/PricingPage';
-import { PaymentPage } from './pages/PaymentPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { useAuthStore } from './features/authentication/hooks/useAuthStore';
+import { SuccessPage } from './pages/SuccessPage';
+import { useAuthStore } from './store/authStore';
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -20,9 +20,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-/**
- * Main application component with routing
- */
 function App() {
   const { checkSession } = useAuthStore();
   
@@ -33,39 +30,35 @@ function App() {
   
   return (
     <Router>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route 
-            path="/app" 
-            element={
-              <ProtectedRoute>
-                <AppPage />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/payment" 
-            element={
-              <ProtectedRoute>
-                <PaymentPage />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            } 
-          />
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route 
+              path="/app" 
+              element={
+                <ProtectedRoute>
+                  <AppPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/success" 
+              element={
+                <ProtectedRoute>
+                  <SuccessPage />
+                </ProtectedRoute>
+              } 
+            />
+            {/* Fallback route */}
+            <Route path="*" element={<Navigate to="/\" replace />} />
+          </Routes>
+        </main>
+        <Footer />
         <Toaster position="bottom-right" />
-      </MainLayout>
+      </div>
     </Router>
   );
 }
