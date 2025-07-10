@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { Button } from '@/shared/components/ui/atoms/Button';
@@ -35,7 +35,7 @@ export function PricingPage() {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
+        `${import.meta.env.VITE_URLSUPABASE}/functions/v1/stripe-checkout`,
         {
           method: 'POST',
           headers: {

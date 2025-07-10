@@ -18,7 +18,7 @@ vi.mock('@/shared/hooks/useNotifications', () => ({
   }),
 }));
 
-vi.mock('@/shared/utils/helpers', () => ({
+vi.mock('@/shared/utils', () => ({
   delay: vi.fn(() => Promise.resolve()),
 }));
 
@@ -82,7 +82,9 @@ describe('usePhotoRestorationStore', () => {
     });
 
     expect(result.current.isProcessing).toBe(false);
-    expect(result.current.processedImage).toBe('https://example.com/processed.jpg');
+    expect(result.current.processedImage).toBe(
+      'https://example.com/processed.jpg'
+    );
     expect(result.current.jobs[0].status).toBe('completed');
   });
 
@@ -94,7 +96,7 @@ describe('usePhotoRestorationStore', () => {
 
   it('should upload image file', async () => {
     const { result } = renderHook(() => usePhotoRestorationStore());
-    
+
     // Create a mock file
     const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
 

@@ -1,5 +1,5 @@
 // profileService.ts
-import { supabase } from '../../../shared/config/supabase';
+import { supabase } from '../../../lib/supabase';
 
 /**
  * Service for handling user profile operations

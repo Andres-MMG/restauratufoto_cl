@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Image as ImageIcon, LogOut, User } from 'lucide-react';
 import { Button } from '../ui/atoms/Button';
 import { useAuthStore } from '../../../features/authentication/hooks/useAuthStore';
@@ -11,6 +11,7 @@ import { RegisterModal } from '../../../features/authentication/components/Regis
  */
 export function Header() {
   const { isAuthenticated, credits, logout } = useAuthStore();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -19,12 +20,12 @@ export function Header() {
   const closeMenu = () => setIsMenuOpen(false);
 
   const openLoginModal = () => {
-    setIsLoginModalOpen(true);
+    navigate('/auth?mode=login');
     closeMenu();
   };
 
   const openRegisterModal = () => {
-    setIsRegisterModalOpen(true);
+    navigate('/auth?mode=register');
     closeMenu();
   };
 

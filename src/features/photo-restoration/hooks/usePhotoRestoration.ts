@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../../authentication/hooks/useAuthStore';
 import { generateProcessedImageUrl } from '../services/imageProcessing';
 import { useNotifications } from '../../../shared/hooks/useNotifications';
-import { delay } from '../../../shared/utils/helpers';
+import { delay } from '../../../shared/utils';
 
 /**
  * Custom hook for handling photo restoration operations

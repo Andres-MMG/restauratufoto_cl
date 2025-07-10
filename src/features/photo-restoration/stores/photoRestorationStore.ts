@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useAuthStore } from '../../authentication/stores/authStore';
 import { generateProcessedImageUrl } from '../services/imageProcessing';
-import { delay } from '../../../shared/utils/helpers';
+import { delay } from '../../../shared/utils';
 
 interface RestorationJob {
   id: string;
@@ -17,17 +17,17 @@ interface PhotoRestorationState {
   processedImage: string | null;
   isProcessing: boolean;
   error: string | null;
-  
+
   // History
   jobs: RestorationJob[];
-  
+
   // Actions
   setImage: (imageUrl: string) => void;
   processImage: (imageUrl: string) => Promise<void>;
   uploadImage: (file: File) => Promise<void>;
   reset: () => void;
   clearError: () => void;
-  
+
   // Job management
   addJob: (job: RestorationJob) => void;
   updateJob: (id: string, updates: Partial<RestorationJob>) => void;
@@ -59,7 +59,7 @@ export const usePhotoRestorationStore = create<PhotoRestorationState>(
       try {
         // Check if user can consume a credit
         const success = useAuthStore.getState().consumeCredit();
-        
+
         if (!success) {
           set({
             error: 'Insufficient credits to process image.',
@@ -83,7 +83,7 @@ export const usePhotoRestorationStore = create<PhotoRestorationState>(
 
         // Generate processed image
         const processedUrl = generateProcessedImageUrl(imageUrl);
-        
+
         // Update state
         set({
           processedImage: processedUrl,
@@ -95,7 +95,6 @@ export const usePhotoRestorationStore = create<PhotoRestorationState>(
           processedImage: processedUrl,
           status: 'completed',
         });
-
       } catch {
         set({
           error: 'Error al procesar la imagen. Por favor, intenta de nuevo.',
@@ -132,21 +131,21 @@ export const usePhotoRestorationStore = create<PhotoRestorationState>(
 
     // Job management
     addJob: (job: RestorationJob) => {
-      set((state) => ({
+      set(state => ({
         jobs: [job, ...state.jobs],
       }));
     },
 
     updateJob: (id: string, updates: Partial<RestorationJob>) => {
-      set((state) => ({
-        jobs: state.jobs.map((job) =>
+      set(state => ({
+        jobs: state.jobs.map(job =>
           job.id === id ? { ...job, ...updates } : job
         ),
       }));
     },
 
     getJob: (id: string) => {
-      return get().jobs.find((job) => job.id === id);
+      return get().jobs.find(job => job.id === id);
     },
 
     clearHistory: () => {

@@ -4,7 +4,7 @@ import { Modal } from '../../../shared/components/ui/molecules/Modal';
 import { Input } from '../../../shared/components/ui/atoms/Input';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { useAuthStore } from '../hooks/useAuthStore';
-import { isValidEmail } from '../../../shared/utils/helpers';
+import { isValidEmail } from '../../../shared/utils';
 
 type LoginModalProps = {
   isOpen: boolean;

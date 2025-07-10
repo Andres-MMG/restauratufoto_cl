@@ -1,4 +1,4 @@
-import { supabase } from '../../../shared/config/supabase';
+import { supabase } from '../../../lib/supabase';
 
 /**
  * Service for handling photo operations in Supabase storage

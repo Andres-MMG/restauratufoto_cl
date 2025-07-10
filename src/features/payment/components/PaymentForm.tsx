@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { CreditCard } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { Input } from '../../../shared/components/ui/atoms/Input';
-import { Plan } from '../../../pages/PricingPage';
-import { formatCurrency } from '../../../shared/utils/helpers';
+import { type StripeProduct } from '../../../stripe-config';
+import { formatCurrency } from '../../../shared/utils';
 
 type PaymentFormProps = {
-  plan: Plan;
+  plan: StripeProduct;
   onSubmit: () => Promise<void>;
   isProcessing: boolean;
 };

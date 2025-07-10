@@ -1,4 +1,6 @@
-export const stripeProducts = [
+import { Plan } from './shared/domain/types';
+
+export const stripeProducts: Plan[] = [
   {
     id: 'prod_SdDZHj2WxdEGhk',
     priceId: 'price_1Rhx8jCh9fXxDoBAMfjtb52f',

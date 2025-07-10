@@ -4,7 +4,7 @@ import { Upload, X, Download, AlertCircle } from 'lucide-react';
 import { Button } from '@/shared/components/ui/atoms/Button';
 import { ComparisonSlider } from '@/shared/components/ui/molecules/ComparisonSlider';
 import { useAuthStore } from '@/features/authentication/stores/authStore';
-import { delay, generateProcessedImageUrl } from '../lib/utils';
+import { delay, generateProcessedImageUrl } from '@/shared/utils';
 
 export function AppPage() {
   const { user, consumeCredit } = useAuthStore();

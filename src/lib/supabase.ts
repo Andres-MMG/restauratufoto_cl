@@ -1,10 +1,43 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type Session } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://supabase.inteliai.cl';
-const supabaseAnonKey =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0NTg5MTEwMCwiZXhwIjo0OTAxNTY0NzAwLCJyb2xlIjoiYW5vbiJ9.8UyiFY1t8tNCHd_Y13GwBSekVjUg95FoRX1_ytfYxjM';
+// Usar variables de entorno para la configuración de Supabase
+const supabaseUrl =
+  import.meta.env.VITE_URLSUPABASE || 'https://supabase.restauratufoto.cl';
+const supabaseAnonKey = import.meta.env.VITE_ANONSUPABASE || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Para depuración - revisar valores de configuración
+console.log('Supabase URL:', supabaseUrl);
+// No imprimas la clave completa por seguridad
+console.log(
+  'Supabase Key (primeros caracteres):',
+  supabaseAnonKey.substring(0, 10) + '...'
+);
+
+// Asegurarnos de que la URL no tenga espacios en blanco u otros problemas
+const cleanSupabaseUrl = supabaseUrl.trim();
+
+// Singleton pattern para evitar múltiples instancias
+let supabaseInstance: ReturnType<typeof createClient> | null = null;
+
+function createSupabaseClient() {
+  if (supabaseInstance) {
+    console.log('Returning existing Supabase client instance');
+    return supabaseInstance;
+  }
+
+  console.log('Creating new Supabase client instance');
+  supabaseInstance = createClient(cleanSupabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      storageKey: 'restauratufoto-auth-storage',
+    },
+  });
+
+  return supabaseInstance;
+}
+
+// Crear y exportar el cliente de Supabase
+export const supabase = createSupabaseClient();
 
 export type AuthError = {
   message: string;
@@ -52,7 +85,7 @@ export async function getCurrentUser() {
 
 // Subscribe to auth changes
 export function onAuthStateChange(
-  callback: (event: string, session: any) => void
+  callback: (event: string, session: Session | null) => void
 ) {
   return supabase.auth.onAuthStateChange(callback);
 }

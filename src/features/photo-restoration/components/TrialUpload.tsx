@@ -3,8 +3,7 @@ import { Upload, AlertCircle, ArrowRight } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { Input } from '../../../shared/components/ui/atoms/Input';
 import { ComparisonSlider } from '../../../shared/components/ui/molecules/ComparisonSlider';
-import { isValidEmail } from '../../../shared/utils/helpers';
-import { delay } from '../../../shared/utils/helpers';
+import { isValidEmail, delay } from '../../../shared/utils';
 import { generateProcessedImageUrl } from '../services/imageProcessing';
 
 /**

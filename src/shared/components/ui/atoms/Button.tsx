@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../../utils/classNames';
+import { cn } from '../../../utils';
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';

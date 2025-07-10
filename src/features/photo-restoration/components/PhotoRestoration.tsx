@@ -4,7 +4,7 @@ import { Upload, X, Download, AlertCircle } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { ComparisonSlider } from '../../../shared/components/ui/molecules/ComparisonSlider';
 import { useAuthStore } from '../../authentication/hooks/useAuthStore';
-import { delay } from '../../../shared/utils/helpers';
+import { delay } from '../../../shared/utils';
 import { generateProcessedImageUrl } from '../services/imageProcessing';
 
 /**

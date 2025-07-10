@@ -5,8 +5,8 @@ import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 import { PaymentForm } from '../features/payment/components/PaymentForm';
 import { OrderSummary } from '../features/payment/components/OrderSummary';
 import { PaymentSuccess } from '../features/payment/components/PaymentSuccess';
-import { Plan } from './PricingPage';
-import { delay } from '../shared/utils/helpers';
+import { type StripeProduct } from '../stripe-config';
+import { delay } from '../shared/utils';
 
 /**
  * Payment page for processing purchases
@@ -16,7 +16,7 @@ export function PaymentPage() {
   const navigate = useNavigate();
   const { addCredits } = useAuthStore();
 
-  const [plan, setPlan] = useState<Plan | null>(null);
+  const [plan, setPlan] = useState<StripeProduct | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 

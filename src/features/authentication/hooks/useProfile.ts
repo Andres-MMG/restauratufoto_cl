@@ -1,5 +1,5 @@
 // useProfile.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from './useAuthStore';
 import { profileService } from '../services/profileService';
 
@@ -29,16 +29,7 @@ export function useProfile() {
     error: null,
   });
 
-  // Get profile data when user changes
-  useEffect(() => {
-    if (user) {
-      loadProfile();
-    } else {
-      setState({ profile: null, isLoading: false, error: null });
-    }
-  }, [user?.id]);
-
-  const loadProfile = async () => {
+  const loadProfile = useCallback(async () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -65,7 +56,16 @@ export function useProfile() {
           error instanceof Error ? error.message : 'Failed to load profile',
       });
     }
-  };
+  }, []);
+
+  // Get profile data when user changes
+  useEffect(() => {
+    if (user) {
+      loadProfile();
+    } else {
+      setState({ profile: null, isLoading: false, error: null });
+    }
+  }, [user, loadProfile]);
 
   const updateProfile = async (data: { full_name?: string; bio?: string }) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));

@@ -15,6 +15,9 @@ export interface AuthState {
   isAuthenticated: boolean;
 }
 
+// Export payment types
+export * from './payment';
+
 // Payment related types
 export interface PaymentPlan {
   id: string;

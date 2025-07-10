@@ -1,9 +1,9 @@
 import React from 'react';
-import { Plan } from '../../../pages/PricingPage';
-import { formatCurrency } from '../../../shared/utils/helpers';
+import { type StripeProduct } from '../../../stripe-config';
+import { formatCurrency } from '../../../shared/utils';
 
 type OrderSummaryProps = {
-  plan: Plan;
+  plan: StripeProduct;
 };
 
 /**

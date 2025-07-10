@@ -16,7 +16,28 @@ export default defineConfig({
       '@/domain': path.resolve(__dirname, './src/shared/domain'),
     },
   },
+  // Optimizations for Vite 7
   optimizeDeps: {
     exclude: ['lucide-react'],
+  },
+  // Modern browser targets for better performance
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          supabase: ['@supabase/supabase-js'],
+        },
+      },
+    },
+  },
+  // Improved dev server settings
+  server: {
+    hmr: true,
+    port: 4173,
+    strictPort: true,
   },
 });

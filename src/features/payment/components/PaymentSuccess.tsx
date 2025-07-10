@@ -1,10 +1,10 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/atoms/Button';
-import { Plan } from '../../../pages/PricingPage';
+import { type StripeProduct } from '../../../stripe-config';
 
 type PaymentSuccessProps = {
-  plan: Plan;
+  plan: StripeProduct;
   onContinue: () => void;
 };
 

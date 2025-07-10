@@ -12,6 +12,7 @@ import { HomePage } from './pages/HomePage';
 import { AppPage } from './pages/AppPage';
 import { PricingPage } from './pages/PricingPage';
 import { SuccessPage } from './pages/SuccessPage';
+import { AuthPage } from './pages/AuthPage';
 import { useAuthStore } from '@/features/authentication/stores/authStore';
 
 // Protected route component
@@ -41,6 +42,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route
               path="/app"
               element={

@@ -29,13 +29,16 @@ export const useNotifications = () => {
   /**
    * Show loading notification
    */
-  const showLoading = useCallback((message: string, promise: Promise<any>) => {
-    toast.promise(promise, {
-      loading: message,
-      success: 'Operación completada',
-      error: 'Ha ocurrido un error',
-    });
-  }, []);
+  const showLoading = useCallback(
+    (message: string, promise: Promise<unknown>) => {
+      toast.promise(promise, {
+        loading: message,
+        success: 'Operación completada',
+        error: 'Ha ocurrido un error',
+      });
+    },
+    []
+  );
 
   return {
     showSuccess,

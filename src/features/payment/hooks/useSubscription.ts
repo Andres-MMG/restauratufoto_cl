@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../../lib/supabase';
 import { useAuthStore } from '@/features/authentication/stores/authStore';
-import { stripeProducts } from '../stripe-config';
+// Update the import path if the file exists elsewhere, for example:
+//import { stripeProducts } from '../utils/stripe-config';
+// Or, if the file does not exist, create 'stripe-config.ts' in the correct directory with the following content:
+
+export const stripeProducts = [
+  { priceId: 'price_123', name: 'Basic Plan' },
+  { priceId: 'price_456', name: 'Pro Plan' },
+];
 
 type Subscription = {
   customer_id: string;

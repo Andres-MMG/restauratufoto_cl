@@ -1,7 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getCurrentUser, signIn, signOut, signUp } from '@/lib/supabase';
-import { supabase } from '@/lib/supabase';
+// Importar servicios de autenticación
+import {
+  signIn,
+  signUp,
+  signOut,
+  getCurrentUser,
+} from '../services/authService';
+// Importar directamente desde el servicio para operaciones específicas
+import { supabase } from '../../../lib/supabase';
 
 type User = {
   id: string;
@@ -61,9 +68,25 @@ export const useAuthStore = create<AuthState>()(
           const { error } = await signUp(email, password, fullName);
 
           if (error) {
-            set({ error: error.message, isLoading: false });
+            // Manejar el error de email no confirmado
+            if (error.message.includes('Email not confirmed')) {
+              set({
+                error:
+                  'Te hemos enviado un email de confirmación. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.',
+                isLoading: false,
+              });
+            } else {
+              set({ error: error.message, isLoading: false });
+            }
             return;
           }
+
+          // Si no hay error, mostrar mensaje de éxito
+          set({
+            error:
+              'Cuenta creada exitosamente. Te hemos enviado un email de confirmación.',
+            isLoading: false,
+          });
 
           // Esperar un momento para que se cree el perfil
           setTimeout(async () => {
