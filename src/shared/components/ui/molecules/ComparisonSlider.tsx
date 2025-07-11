@@ -107,12 +107,12 @@ export function ComparisonSlider({
       >
         {/* Handle circular */}
         <div
-          className="absolute top-1/2 left-1/2 w-10 h-10 bg-white rounded-full shadow-xl border-2 border-blue-500 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-all duration-200 cursor-grab active:cursor-grabbing"
+          className="absolute top-1/2 left-1/2 w-10 h-10 bg-white rounded-full shadow-xl border-2 border-primary-600 flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 hover:scale-110 transition-all duration-200 cursor-grab active:cursor-grabbing"
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
         >
           {/* Iconos de flecha más visibles */}
-          <div className="flex items-center text-blue-500 text-sm font-bold">
+          <div className="flex items-center text-primary-600 text-sm font-bold">
             <span>←</span>
             <span>→</span>
           </div>
@@ -153,7 +153,7 @@ export function ComparisonSlider({
 
       {/* Indicador de instrucción si no ha interactuado */}
       {!userInteracted && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium animate-pulse whitespace-nowrap z-20">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-medium animate-pulse whitespace-nowrap z-20">
           ← Arrastra para comparar →
         </div>
       )}

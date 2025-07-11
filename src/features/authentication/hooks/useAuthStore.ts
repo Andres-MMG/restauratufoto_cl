@@ -24,6 +24,7 @@ type AuthState = {
   addCredits: (amount: number) => void;
   consumeCredit: () => boolean;
   checkSession: () => Promise<void>;
+  clearError: () => void;
 };
 
 /**
@@ -59,13 +60,15 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false,
             });
           } else {
+            const errorMsg = 'No se pudo obtener la información del usuario.';
             set({
-              error: 'No se pudo obtener la información del usuario.',
+              error: errorMsg,
               isLoading: false,
             });
           }
         } catch {
-          set({ error: 'Error al iniciar sesión.', isLoading: false });
+          const errorMsg = 'Error al iniciar sesión.';
+          set({ error: errorMsg, isLoading: false });
         }
       },
 
@@ -83,7 +86,8 @@ export const useAuthStore = create<AuthState>()(
           // Auto-login after registration
           await get().login(email, password);
         } catch {
-          set({ error: 'Error al registrar usuario.', isLoading: false });
+          const errorMsg = 'Error al registrar usuario.';
+          set({ error: errorMsg, isLoading: false });
         }
       },
 
@@ -97,9 +101,11 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: false,
             isLoading: false,
             credits: 0,
+            error: null, // Limpiar errores al cerrar sesión
           });
         } catch {
-          set({ error: 'Error al cerrar sesión.', isLoading: false });
+          const errorMsg = 'Error al cerrar sesión.';
+          set({ error: errorMsg, isLoading: false });
         }
       },
 
@@ -136,6 +142,10 @@ export const useAuthStore = create<AuthState>()(
 
         set(state => ({ credits: state.credits - 1 }));
         return true;
+      },
+
+      clearError: () => {
+        set({ error: null });
       },
     }),
     {

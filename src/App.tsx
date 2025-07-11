@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { Header } from '@/shared/components/layout/Header';
@@ -13,7 +14,7 @@ import { AppPage } from './pages/AppPage';
 import { PricingPage } from './pages/PricingPage';
 import { SuccessPage } from './pages/SuccessPage';
 import { AuthPage } from './pages/AuthPage';
-import { useAuthStore } from '@/features/authentication/stores/authStore';
+import { useAuthStore } from '@/features/authentication/hooks/useAuthStore';
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -26,6 +27,19 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Component to clear errors on route changes
+const ErrorCleaner = () => {
+  const location = useLocation();
+  const { clearError } = useAuthStore();
+
+  useEffect(() => {
+    // Limpiar errores cada vez que cambie ruta o búsqueda de query
+    clearError();
+  }, [location.pathname, location.search, clearError]);
+
+  return null;
+};
+
 function App() {
   const { checkSession } = useAuthStore();
 
@@ -36,6 +50,7 @@ function App() {
 
   return (
     <Router>
+      <ErrorCleaner />
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Facebook, Github } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '../../../shared/components/ui/molecules/Modal';
 import { Input } from '../../../shared/components/ui/atoms/Input';
 import { Button } from '../../../shared/components/ui/atoms/Button';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { isValidEmail } from '../../../shared/utils';
+// Removed supabase import; using SocialAuthButtons for social login
+import { SocialAuthButtons } from './SocialAuthButtons';
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -20,12 +21,27 @@ export function LoginModal({
   onClose,
   onRegisterClick,
 }: LoginModalProps) {
-  const { login, isLoading, error } = useAuthStore();
+  const { login, isLoading, error, clearError } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  // Limpiar errores y campos cuando se abre o cierra el modal
+  useEffect(() => {
+    if (isOpen) {
+      // Limpiar cuando se abre
+      setEmail('');
+      setPassword('');
+      setEmailError('');
+      setPasswordError('');
+      clearError();
+    } else {
+      // Limpiar cuando se cierra
+      clearError();
+    }
+  }, [isOpen, clearError]);
 
   const validateForm = (): boolean => {
     let isValid = true;
@@ -101,15 +117,8 @@ export function LoginModal({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Button type="button" variant="outline" className="w-full">
-            <Facebook size={16} className="mr-2" />
-            Facebook
-          </Button>
-          <Button type="button" variant="outline" className="w-full">
-            <Github size={16} className="mr-2" />
-            Google
-          </Button>
+        <div className="mt-4">
+          <SocialAuthButtons />
         </div>
 
         <p className="text-center text-sm">

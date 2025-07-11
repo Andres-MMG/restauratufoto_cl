@@ -4,7 +4,7 @@ import { AuthForm } from '../features/authentication/components/AuthForm';
 import { useAuthStore } from '../features/authentication/hooks/useAuthStore';
 
 export function AuthPage() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, clearError } = useAuthStore();
   const navigate = useNavigate();
 
   // Redirigir al usuario si ya está autenticado
@@ -13,6 +13,10 @@ export function AuthPage() {
       navigate('/app');
     }
   }, [isAuthenticated, navigate]);
+  // Limpiar errores al entrar en la página de autenticación
+  React.useEffect(() => {
+    clearError();
+  }, [clearError]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
