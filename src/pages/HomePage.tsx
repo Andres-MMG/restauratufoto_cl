@@ -32,8 +32,8 @@ export function HomePage() {
 
           <div className="mb-8 rounded-lg overflow-hidden">
             <ComparisonSlider
-              beforeImage="https://images.pexels.com/photos/374016/pexels-photo-374016.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&sat=-100&con=-60&bri=-35"
-              afterImage="https://images.pexels.com/photos/374016/pexels-photo-374016.jpeg?auto=compress&cs=tinysrgb&w=800&h=600"
+              beforeImage="/images/Foto-Pareja-Antes.png"
+              afterImage="/images/Foto-Pareja-Despues.png"
               autoSlide={true}
             />
           </div>
@@ -123,32 +123,63 @@ export function HomePage() {
           <h2 className="text-3xl font-bold text-center mb-12">
             Ejemplos Impresionantes
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="relative">
+
+          {/* Nueva fila con sliders verticales */}
+          <div className="flex flex-col items-center space-y-12 md:flex-row md:justify-center md:space-x-12 md:space-y-0 mb-12">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-96 aspect-[3/4] flex flex-col">
+              {/* Slider ocupa todo el espacio restante */}
+              <div className="relative flex-grow">
                 <ComparisonSlider
-                  beforeImage="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&sat=-100&con=-50&bri=-30"
-                  afterImage="https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg?auto=compress&cs=tinysrgb&w=800&h=600"
+                  beforeImage="/images/Foto-Familia-Antes.jpg"
+                  afterImage="/images/Foto-Familia-Despues.png"
+                  orientation="vertical"
+                  labelPosition="left"
+                  dragIndicatorSide="left"
                 />
               </div>
-              <div className="p-4">
+              {/* Contenedor de texto centrado */}
+              <div className="p-4 text-center">
                 <h3 className="font-semibold">Retrato Familiar Clásico</h3>
                 <p className="text-sm text-gray-600">
                   Colores y nitidez restaurados
                 </p>
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-96 aspect-[3/4] flex flex-col">
+              {/* Slider ocupa todo el espacio restante */}
+              <div className="relative flex-grow">
+                <ComparisonSlider
+                  beforeImage="/images/Foto-Nina-Antes.png"
+                  afterImage="/images/Foto-Nina-Despues.png"
+                  orientation="vertical"
+                  labelPosition="right"
+                  dragIndicatorSide="right"
+                />
+              </div>
+              {/* Contenedor de texto centrado */}
+              <div className="p-4 text-center">
+                <h3 className="font-semibold">Retrato Vintage</h3>
+                <p className="text-sm text-gray-600">
+                  Restauración fiel a su esencia original
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Ahora: sólo un slider, centrado, mismo ancho que antes */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-3/5">
               <div className="relative">
                 <ComparisonSlider
-                  beforeImage="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&sat=-90&con=-40&bri=-25"
-                  afterImage="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800&h=600"
+                  beforeImage="/images/Foto-Reunion-Antes.png"
+                  afterImage="/images/Foto-Reunion-Despues.png"
                 />
               </div>
               <div className="p-4">
-                <h3 className="font-semibold">Fotografía Vintage</h3>
+                <h3 className="font-semibold">Álbum de Recuerdos</h3>
                 <p className="text-sm text-gray-600">
-                  Restaurada a su gloria original
+                  Texturas y tonos restaurados con precisión
                 </p>
               </div>
             </div>
