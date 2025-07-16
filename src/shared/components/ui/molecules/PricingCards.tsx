@@ -25,7 +25,8 @@ export function PricingCards({ onSelect, isLoading }: PricingCardsProps) {
           768: { slidesPerView: 2.5, spaceBetween: 20 },
           1024: { slidesPerView: 3.3, spaceBetween: 20 },
         }}
-        className="h-full overflow-x-hidden overflow-y-visible
+        className="
+          h-full overflow-x-hidden overflow-y-visible
           [&_.swiper-button-next]:bg-gray-200
           [&_.swiper-button-prev]:bg-gray-200
           [&_.swiper-button-next]:text-primary-900
@@ -35,7 +36,12 @@ export function PricingCards({ onSelect, isLoading }: PricingCardsProps) {
           [&_.swiper-button-next]:w-12
           [&_.swiper-button-prev]:w-12
           [&_.swiper-button-next]:h-12
-          [&_.swiper-button-prev]:h-12"
+          [&_.swiper-button-prev]:h-12
+          [&_.swiper-button-next]:shadow-lg
+          [&_.swiper-button-prev]:shadow-lg
+          [&_.swiper-button-next::after]:text-[2rem]
+          [&_.swiper-button-prev::after]:text-[2rem]
+        "
       >
         {stripeProducts.map(product => (
           <SwiperSlide key={product.id} className="h-full flex pt-4">
