@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Image as ImageIcon, LogOut, User } from 'lucide-react';
+import { Menu, X, LogOut, User } from 'lucide-react';
 import { Button } from '../ui/atoms/Button';
 import { useAuthStore } from '../../../features/authentication/hooks/useAuthStore';
 import { LoginModal } from '../../../features/authentication/components/LoginModal';

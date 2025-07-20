@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Image as ImageIcon,
-  Mail,
-  Instagram,
-  Facebook,
-  Twitter,
-} from 'lucide-react';
+import { Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 
 /**
  * Site footer with navigation links and social media
