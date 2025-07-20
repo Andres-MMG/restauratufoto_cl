@@ -41,8 +41,11 @@ export function Header() {
           to="/"
           className="flex items-center gap-2 font-bold text-primary-600 text-xl"
         >
-          <ImageIcon size={24} />
-          <span>RestauraTuFoto.cl</span>
+          <img
+            src="/images/logos/logo-dark.png"
+            alt="RestauraTuFoto.cl"
+            className="h-16 w-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}
