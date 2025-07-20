@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Image as ImageIcon,
-  Mail,
-  Instagram,
-  Facebook,
-  Twitter,
-} from 'lucide-react';
+import { Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 
 /**
  * Site footer with navigation links and social media
@@ -21,8 +15,11 @@ export function Footer() {
               to="/"
               className="flex items-center gap-2 font-bold text-white text-xl mb-4"
             >
-              <ImageIcon size={24} />
-              <span>RestauraTuFoto.cl</span>
+              <img
+                src="/images/logos/logo-light.png"
+                alt="RestauraTuFoto.cl"
+                className="h-16 w-auto"
+              />
             </Link>
             <p className="text-gray-400 mb-4 max-w-md">
               Restaura tus fotos antiguas y dañadas con nuestra tecnología de
